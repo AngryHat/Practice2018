@@ -1,0 +1,238 @@
+*{
+    padding: 0;
+    color: #33495F;
+}
+
+body{
+    font-family: 'Lato';
+    background: #EAEDF1;
+}
+
+h1, h2, h3, h4 {
+    color: #33495F;
+    font-family: 'Signika';
+}
+
+.mainContainer {
+    /* background: rgb(205, 236, 207); */
+    margin-top: 82px;
+    margin-left: 73px;
+    width: 1400px;
+    height: 1200px;
+}
+
+/* photo block */
+.topPhoto{
+    float: left;
+    background: #FFFFFF;
+    width: 434px;
+    height: 295px;
+}
+.topPhoto img {
+    float: left;
+    width: 146px;
+    height: 146px;
+    border-radius: 100%;
+    margin-left: 26px;
+    margin-top: 35px;
+}
+.topPhoto h2 {
+    float: left;
+    font-size: 30px;
+    margin-top: 77px;
+    margin-left: 42px;
+    font-weight: 500;
+}
+
+.topPhoto  p {
+    color: #586879;
+    float: left;
+    font-size: 17.4px;
+    margin-top: -21px;
+    margin-left: 42px;
+}
+
+.photoIcons{
+    position: relative;
+    top: 35px;
+    height: 80px;
+    clear: both;
+}
+
+.photoIcons p {
+    letter-spacing:  -0.7px;
+    color: #FFFFFF;
+    display: inline-block;
+    width: 25%;
+    height: 38px;
+    margin: 0%;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 42px;
+}
+
+.photoIcons p:nth-child(1) {
+    background: #16C4EC url(/images/icon-top-1.png) no-repeat 50% 18px;
+}
+.photoIcons p:nth-child(2) {
+    background: #FA5351 url(/images/icon-top-2.png) no-repeat 50% 18px;
+}
+.photoIcons p:nth-child(3) {
+    background: #10CDC1 url(/images/icon-top-3.png) no-repeat 50% 18px;
+}
+.photoIcons p:nth-child(4) {
+    background: #33495F url(/images/icon-top-4.png) no-repeat 50% 18px;
+}
+
+/* description block */
+.topDescription{
+    float: left;
+    background: #FFFFFF;
+    width: 822px;
+    height: 295px;
+    margin-left: 90px;
+}
+
+.descriptionTitle{
+    float: left;
+    width: 480px;
+}
+
+.descriptionTitle h1 {
+    letter-spacing: 0.3px;
+    font-size: 38px;
+    margin-left: 29px;
+    margin-top: 42px;
+    font-weight: 500;
+}
+
+.descriptionTitle p {
+    font-size: 18px;
+    line-height: 1.7em;
+    margin-left: 30px;
+    margin-top: -15px;
+    padding-right: 45px;
+    font-weight: 500;
+    text-align: justify;
+}
+
+.bold{
+    font-weight: bold;
+}
+.highlighted {
+    color: #16C4EC;
+}
+
+.socialLinks a {
+    padding-top: 2px;
+    display: inline-block;
+    margin-left: 51px;
+    height: 20px;
+    width: 20px;
+}
+.socialLinks a:nth-child(1){
+    margin-left: 20px;
+}
+
+.webLinks {
+    float: right;
+    width: 275px;
+    margin-top: 95px;
+    padding-right: 35px;
+    
+}
+
+.webLinks a{
+    letter-spacing: 0.3px;
+    display: inline-block;
+    width: 100%;
+    text-align: justify;
+    font-family: 'Signika';
+    line-height: 2.1em;
+    font-size: 22px;
+    text-decoration: none;
+}
+
+.webLinks a:nth-child(2){
+    letter-spacing: 2.4px;
+    color: #FA5351;
+}
+
+.webLinks hr{
+    margin-top: 24px;
+}
+
+/* left columns */
+.leftColumn{
+    float: left;
+    width: 635px;
+}
+
+.leftColumnBlock{
+    float: left;
+    margin-top: 35px;
+    width: 100%;
+    background: #FFFFFF;
+}
+
+.leftColumnBlock h3{
+    display: inline-block;
+    float: left;
+    font-size: 25px;
+    font-weight: 300;
+    padding-left: 24.5px;
+    padding-top: 5px;
+    margin-bottom: 0;
+}
+
+.leftColumnBlock p{
+    color: #9EA7B4;
+    display: inline-block;
+    float: left;
+    font-size: 17.5px;
+    font-weight: 100;
+    padding-left: 15px;
+    padding-top: 18px;
+    margin-bottom: 0;
+}
+
+.leftColumnBlock h4{
+    clear: both;
+    color: #10CDC1;
+    font-size: 21px;
+    font-weight: 300;
+    padding-left: 22px;
+}
+
+.leftColumnBlock li{
+    clear: both;
+    list-style-image: url("/images/list-deco.png");
+    font-size: 16px;
+    font-weight: 300;
+    margin-left: 55px;
+    margin-top: 10px;
+}
+
+
+/* center */
+.divider {
+    float: left;
+    margin-top: 35px;
+    margin-left: 15px;
+    width: 60px;
+    height: 800px;
+    background: rgb(167, 175, 211);
+}
+.rightColumn{
+    float: right;
+    margin-right: 50px;
+    width: 625px;
+}
+
+.rightColumnBlock{
+    float: right;
+    margin-top: 35px;
+    width: 100%;
+    background: rgb(255, 199, 199);
+}
