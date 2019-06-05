@@ -93,12 +93,10 @@ h1, h2, h3, h4 {
     height: 295px;
     margin-left: 90px;
 }
-
 .descriptionTitle{
     float: left;
     width: 480px;
 }
-
 .descriptionTitle h1 {
     letter-spacing: 0.3px;
     font-size: 38px;
@@ -106,7 +104,6 @@ h1, h2, h3, h4 {
     margin-top: 42px;
     font-weight: 500;
 }
-
 .descriptionTitle p {
     font-size: 18px;
     line-height: 1.7em;
@@ -116,14 +113,12 @@ h1, h2, h3, h4 {
     font-weight: 500;
     text-align: justify;
 }
-
 .bold{
     font-weight: bold;
 }
 .highlighted {
     color: #16C4EC;
 }
-
 .socialLinks a {
     padding-top: 2px;
     display: inline-block;
@@ -134,7 +129,6 @@ h1, h2, h3, h4 {
 .socialLinks a:nth-child(1){
     margin-left: 20px;
 }
-
 .webLinks {
     float: right;
     width: 275px;
@@ -142,7 +136,6 @@ h1, h2, h3, h4 {
     padding-right: 35px;
     
 }
-
 .webLinks a{
     letter-spacing: 0.3px;
     display: inline-block;
@@ -153,29 +146,26 @@ h1, h2, h3, h4 {
     font-size: 22px;
     text-decoration: none;
 }
-
 .webLinks a:nth-child(2){
     letter-spacing: 2.4px;
     color: #FA5351;
 }
-
 .webLinks hr{
     margin-top: 24px;
 }
+
 
 /* left columns */
 .leftColumn{
     float: left;
     width: 635px;
 }
-
 .leftColumnBlock{
     float: left;
     margin-top: 35px;
     width: 100%;
     background: #FFFFFF;
 }
-
 .leftColumnBlock h3{
     display: inline-block;
     float: left;
@@ -185,7 +175,6 @@ h1, h2, h3, h4 {
     padding-top: 5px;
     margin-bottom: 0;
 }
-
 .leftColumnBlock p{
     color: #9EA7B4;
     display: inline-block;
@@ -196,7 +185,6 @@ h1, h2, h3, h4 {
     padding-top: 18px;
     margin-bottom: 0;
 }
-
 .leftColumnBlock h4{
     clear: both;
     color: #10CDC1;
@@ -204,7 +192,6 @@ h1, h2, h3, h4 {
     font-weight: 300;
     padding-left: 22px;
 }
-
 .leftColumnBlock li{
     clear: both;
     list-style-image: url("/images/list-deco.png");
@@ -213,7 +200,116 @@ h1, h2, h3, h4 {
     margin-left: 55px;
     margin-top: 10px;
 }
+.leftColumnBottom{
+    
+    width: 100%;
+    height: 85px;
+    
+}
+.leftColumnBottom p{
+    display: inline-block;
+    color:#9EA7B4;
+    font-family: 'Lato';
+    font-size: 15px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.leftColumnBottom p:nth-child(2){
+    margin-left: 35px;
+}
+.cityInfo,
+.yearsInfo{
+    float: left;
+    color:#9EA7B4;
+    font-size: 15px;
+    position: relative;
+    bottom: 3px;
+    right: 3px;
+}
+.leftColumnBottom p img{
+    position: relative;
+    top: 6px;
+}
+.linkButton{
+    float: right;
+    background: #16C4EC;
+    font-size: 16px;
+    border-radius: 3px;
+    text-align: center;
+    width: 216px;
+    height: 37px;
+    margin-top: 26px;
+    margin-right: 24px;
+}
+.linkButton a{
+    position: relative;
+    top: 9px;
+    color: white;
+}
 
+
+.leftColumnBlock:nth-child(2) h3{
+    padding-top: 0px;
+}
+.leftColumnBlock:nth-child(2) p{
+    margin-top: 13px;
+    padding-left: 10px;
+}
+.leftColumnBlock:nth-child(2) ul{
+    margin-top: -14px;
+}
+.leftColumnBottom:nth-child(2){
+    position: relative;
+    top: -100px;
+}
+.leftColumnBlock:nth-child(2) .cityInfo,
+.leftColumnBlock:nth-child(2) .yearsInfo{
+    position: relative;
+    top: -9px;
+    right: -5px;
+}
+.leftColumnBlock:nth-child(2) .linkButton {
+    position: relative;
+    top: -3px;
+}
+
+.leftColumnBlock:nth-child(3) h3{
+    padding-top: 0px;
+}
+.leftColumnBlock:nth-child(3) p{
+    margin-top: 13px;
+    padding-left: 10px;
+}
+.leftColumnBlock:nth-child(3) .cityInfo,
+.leftColumnBlock:nth-child(3) .yearsInfo{
+    position: relative;
+    top: -34px;
+    right: -3px;
+}
+.leftColumnBlock:nth-child(3) .linkButton {
+    background: #B0BBCA;
+    position: relative;
+    top: -30px;
+}
+
+.leftColumnBlock:nth-child(4) h3{
+    padding-top: 0px;
+}
+.leftColumnBlock:nth-child(4) p{
+    margin-top: 13px;
+    padding-left: 10px;
+}
+.leftColumnBlock:nth-child(4) .cityInfo,
+.leftColumnBlock:nth-child(4) .yearsInfo{
+    position: relative;
+    top: -34px;
+    right: -3px;
+}
+.leftColumnBlock:nth-child(4) .linkButton {
+    background: #B0BBCA;
+    position: relative;
+    top: -30px;
+}
 
 /* center */
 .divider {
@@ -224,15 +320,99 @@ h1, h2, h3, h4 {
     height: 800px;
     background: rgb(167, 175, 211);
 }
+
+
 .rightColumn{
     float: right;
     margin-right: 50px;
     width: 625px;
 }
 
-.rightColumnBlock{
+
+.rightColumnExp{
     float: right;
     margin-top: 35px;
     width: 100%;
-    background: rgb(255, 199, 199);
+    height: 172px;
+    background: #DBE1E8;
 }
+.rightColumnExp  .cityInfo,
+.rightColumnExp  .yearsInfo{
+    font-size: 12px;
+    color: #586879;
+}
+
+
+.rightLinkButton{
+    float: right;
+    background: #10CDC1;
+    font-size: 15px;
+    border-radius: 3px;
+    text-align: center;
+    width: 216px;
+    height: 37px;
+    margin-top: 7px;
+    margin-right: 26px;
+}
+.rightColumnExp a{
+    position: relative;
+    top: 7px;
+    color: white;
+}
+.rightColumnExp h3{
+    display: inline-block;
+    float: left;
+    font-size: 21px;
+    font-weight: 300;
+    padding-left: 23px;
+    padding-top: 12px;
+    margin-bottom: 0;
+}
+.rightColumnExp p{
+    color: #9EA7B4;
+    display: inline-block;
+    float: left;
+    font-size: 16px;
+    font-weight: 100;
+    padding-left: 15px;
+    padding-top: 18px;
+    margin-bottom: 0;
+}
+.rightColumnExp h4{
+    clear: both;
+    color: #16C4EC;
+    font-size: 18px;
+    font-weight: 300;
+    padding-left: 20px;
+    padding-top: 2px;
+}
+.rightColumnExpBottom p{
+    display: inline-block;
+    color:#9EA7B4;
+    font-family: 'Lato';
+    font-size: 12px;
+    position: relative;
+    top: -27px;
+    right: -0px;
+}
+.rightColumnExpBottom p:nth-child(2){
+    margin-left: 50px;
+}
+.rightColumnExpBottom p img{
+    position: relative;
+    top: 7px;
+}
+.rightColumnExp:nth-child(2){
+    margin-top: 30px;
+}
+.rightColumnExp:nth-child(2) .rightColumnExpBottom p{
+    top: -25px;
+}
+
+
+.dottedLine{
+    border: 1px dotted #ff0000;
+    border-style: none none dotted;
+    color: #fff;
+    background-color: #fff;
+  } 
