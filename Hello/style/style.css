@@ -1,16 +1,45 @@
+@font-face { 
+    font-family: 'Lato';
+    src: url("/fonts/Lato/Lato-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face { 
+    font-family: 'Lato';
+    src: url("/fonts/Lato/Lato-Italic.ttf") format("truetype");
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face { 
+    font-family: 'Lato';
+    src: url("/fonts/Lato/Lato-Bold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: bold;
+}
+
+@font-face { 
+    font-family: 'Signika';
+    src: url("/fonts/Signika/Signika-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+
 *{
     padding: 0;
     color: #33495F;
+    text-decoration: none;
 }
 
 body{
-    font-family: 'Lato';
+    font-family: 'Lato', sans-serif;
     background: #EAEDF1;
 }
 
 h1, h2, h3, h4 {
     color: #33495F;
-    font-family: 'Signika';
+    font-family: 'Signika', sans-serif;
 }
 
 .mainContainer {
@@ -721,15 +750,16 @@ float: right;
 #english p {
     position: relative;
     right: 26px;
-    top: -54px;
-    font-family: 'Signika';
+    top: -50px;
+    font-family: 'Lato';
     font-style: italic;
     font-weight: 100;
     font-display: initial;
-    font-size: 18px;
+    font-size: 19px;
     margin-bottom: 0;
 }
 #english span {
+    font-family: 'Signika';
     color: #CED4DD;
     position: relative;
     top:80px;
