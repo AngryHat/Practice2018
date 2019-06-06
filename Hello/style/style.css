@@ -56,6 +56,7 @@ h1, h2, h3, h4 {
     background: #FFFFFF;
     width: 434px;
     height: 295px;
+    border-radius: 4px;
 }
 .topPhoto img {
     float: left;
@@ -121,6 +122,7 @@ h1, h2, h3, h4 {
     width: 822px;
     height: 295px;
     margin-left: 90px;
+    border-radius: 4px;
 }
 .descriptionTitle{
     float: left;
@@ -194,6 +196,7 @@ h1, h2, h3, h4 {
     margin-top: 35px;
     width: 100%;
     background: #FFFFFF;
+    border-radius: 4px;
 }
 
 .leftBlockShort{
@@ -444,6 +447,7 @@ h1, h2, h3, h4 {
     width: 100%;
     height: 172px;
     background: #DBE1E8;
+    border-radius: 2px;
 }
 .rightColumnExp  .cityInfo,
 .rightColumnExp  .yearsInfo{
@@ -534,6 +538,7 @@ h1, h2, h3, h4 {
     width: 100%;
     height: 125px;
     background: #DBE1E8;
+    border-radius: 2px;
 }
 .rightColumnEdu  .cityInfo,
 .rightColumnEdu  .yearsInfo{
@@ -587,9 +592,11 @@ h1, h2, h3, h4 {
 .stars{
     float: right;
     margin-top: -9px;
-    margin-right: 22px;
-    width: 100px;
+    width: 120px;
     height: 20px;
+}
+.stars img{
+    margin-right: -3px;
 }
 
 .rightColumnEdu:last-of-type{
@@ -611,6 +618,7 @@ h1, h2, h3, h4 {
     width: 100%;
     margin-top: 40px;
     background: white;
+    border-radius: 2px;
 }
 
 .aboutPictures {
@@ -701,18 +709,27 @@ float: right;
 }
 
 .percent{
-    width: 39px;
-    height: 21px;
-    background: url(/images/progress-percente.png);
+    width: 37px;
+    height: 18px;
     position: absolute;
     top: 1px;
+    background: #23475F;
+    text-align: center;
+    border-radius: 4px;
 }
 .percent p{
     position: relative;
     top: -10px;
-    left: 8px;
     color: white;
     font-size: 11px;
+    
+}
+.percent::after {
+    content: ''; 
+    position: absolute;
+    left: 10px; bottom: -15px;
+    border: 10px solid transparent;
+    border-top: 10px solid #23475F;
 }
 
 #photoshop{
