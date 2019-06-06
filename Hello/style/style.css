@@ -166,6 +166,15 @@ h1, h2, h3, h4 {
     width: 100%;
     background: #FFFFFF;
 }
+
+.leftBlockShort{
+    height: 169px;
+    margin-top: 35px;
+}
+.leftBlockShort:last-of-type{
+    margin-top: 30px;
+}
+
 .leftColumnBlock h3{
     display: inline-block;
     float: left;
@@ -314,13 +323,84 @@ h1, h2, h3, h4 {
 /* center */
 .divider {
     float: left;
-    margin-top: 35px;
-    margin-left: 15px;
-    width: 60px;
-    height: 800px;
-    background: rgb(167, 175, 211);
+    margin-top: 37px;
+    margin-left: 4px;
+    width: 72px;
+    height: 1174px;
+}
+.divider .line{
+    float: left;
+    margin-left: 32px;
+    width: 7px;
+    height: 1174px;
+    background: #DBE1E8;
+}
+.divider .lightRound{
+    position: absolute;
+    left: 714px;
+    top: 675px;
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    margin-left: 32px;
+    background: #DBE1E8;
 }
 
+.lightRound:nth-child(3){
+    top: 879px;
+}
+.lightRound:nth-child(4){
+    top: 1080px;
+}
+.lightRound:nth-child(5){
+    top: 1300px;
+}
+.lightRound:nth-child(6){
+    top: 1460px;
+}
+
+.divider .whiteRound{
+    position: absolute;
+    left: 714px;
+    top: 574px;
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    margin-left: 32px;
+    background: white;
+}
+.whiteRound:nth-child(7)
+{
+    top: 937px;
+}
+.whiteRound:nth-child(8)
+{
+    top: 1217px;
+}
+.whiteRound:nth-child(9)
+{
+    top: 1414px;
+}
+
+.divider .startYear{
+    position: absolute;
+    top: 1555px;
+    left: 720px;
+    width: 72px;
+    height: 32px;
+    background: #DBE1E8;
+    color: black;
+    border-radius: 5px;
+}
+.divider .startYear p{
+    position: relative;
+    top: -20px;
+    color: white;
+    font-size: 21px;
+    text-align: center;
+}
+
+/* right column  */
 
 .rightColumn{
     float: right;
@@ -409,10 +489,256 @@ h1, h2, h3, h4 {
     top: -25px;
 }
 
-
+/* dots */
 .dottedLine{
-    border: 1px dotted #ff0000;
-    border-style: none none dotted;
-    color: #fff;
-    background-color: #fff;
-  } 
+    float: right;
+    width: 100%;
+    height: 3px;
+    background: url("/images/dottedLine.png");
+    margin-top: 34px;
+}
+
+/* education */
+.rightColumnEdu{
+    float: right;
+    margin-top: 33px;
+    width: 100%;
+    height: 125px;
+    background: #DBE1E8;
+}
+.rightColumnEdu  .cityInfo,
+.rightColumnEdu  .yearsInfo{
+    font-size: 12px;
+    color: #586879;
+}
+.rightColumnEdu h3{
+    display: inline-block;
+    float: left;
+    font-size: 23px;
+    font-weight: 300;
+    padding-left: 22px;
+    padding-top: 5px;
+    margin-bottom: 0;
+}
+.rightColumnEdu p{
+    color: #9EA7B4;
+    display: inline-block;
+    float: left;
+    font-size: 16px;
+    font-weight: 100;
+    padding-left: 10px;
+    padding-top: 18px;
+    margin-bottom: 0;
+}
+.rightColumnEdu h4{
+    clear: both;
+    color: #10CDC1;
+    font-size: 18px;
+    font-weight: 300;
+    padding-left: 20px;
+    padding-top: 2px;
+}
+.rightColumnEduBottom p{
+    display: inline-block;
+    color:#9EA7B4;
+    font-family: 'Lato';
+    font-size: 12px;
+    position: relative;
+    top: -50px;
+    right: -5px;
+}
+.rightColumnEduBottom p img{
+    position: relative;
+    top: 6px;
+}
+.rightColumnEduBottom p:nth-child(2){
+    margin-left: 55px;
+}
+
+.stars{
+    float: right;
+    margin-top: -9px;
+    margin-right: 22px;
+    width: 100px;
+    height: 20px;
+}
+
+.rightColumnEdu:last-of-type{
+    float: right;
+    margin-top: 33px;
+    width: 100%;
+    height: 130px;
+}
+
+.rightColumnEdu:last-of-type h3{
+    margin-top: 26px
+}
+
+/* about */
+
+.rightColumnAbout{
+    float: right;
+    height: 400px;
+    width: 100%;
+    margin-top: 40px;
+    background: white;
+}
+
+.aboutPictures {
+    position: relative;
+    left: 5px;;
+}
+
+.aboutBlock {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 16%;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 18px;
+}
+.aboutBlock p{
+    margin-top: 9px;
+    font-size: 12.5px;
+}
+.aboutIcon{
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.aboutBlock:nth-child(1) .aboutIcon{
+    background: #10CDC1 url("/images/about-web.png") no-repeat 50% 50%;
+}
+.aboutBlock:nth-child(2) .aboutIcon{
+    background: #16C4EC url("/images/about-serv.png") no-repeat 50% 50%;
+}
+.aboutBlock:nth-child(3) .aboutIcon{
+    background: #10CDC1 url("/images/about-mel.png") no-repeat 50% 50%;
+}
+.aboutBlock:nth-child(4) .aboutIcon{
+    background: #FA5351 url("/images/about-fash.png") no-repeat 50% 50%;
+}
+.aboutBlock:nth-child(5) .aboutIcon{
+    background: #10CDC1 url("/images/about-epic.png") no-repeat 50% 50%;
+}
+.aboutBlock:nth-child(6) .aboutIcon{
+    background: #16C4EC url("/images/about-voy.png") no-repeat 50% 50%;
+}
+
+
+.skillsLeft {
+    margin-left: 20px;
+    float: left;
+}
+.skillLeft{
+    position: relative;
+    bottom: -27px;
+    margin-top: -15px;
+}
+.skillLeft p {
+    margin-bottom: 16px;
+}
+.progressBar{
+    width: 266px;
+    height: 14px;
+    border-radius: 10px;
+    background: #000;
+    position: relative;
+    bottom: 15px;
+    -webkit-appearance: none;
+}
+
+.progressBar[value]::-webkit-progress-bar {
+    background: #DBE1E8;
+    border-radius: 5px;
+  }
+
+.skillsLeft .progressBar[value]::-webkit-progress-value {
+border-radius:  5px 0 0 5px;
+background: #10CDC1;
+}
+
+.skillsRight .progressBar[value]::-webkit-progress-value {
+border-radius:  5px 0 0 5px;
+background: #16C4EC;
+}
+
+.skillsRight {
+margin-right: 20px;
+float: right;
+}
+
+.percent{
+    width: 39px;
+    height: 21px;
+    background: url(/images/progress-percente.png);
+    position: absolute;
+    top: 1px;
+}
+.percent p{
+    position: relative;
+    top: -10px;
+    left: 8px;
+    color: white;
+    font-size: 11px;
+}
+
+#photoshop{
+    left: 191px;
+}
+#illustrator{
+    left: 125px;
+}
+#wordpress{
+    left: 230px;
+}
+#prestashop{
+    left: 204px;
+}
+
+#referencement{
+    left: 168px;
+}
+#reseaux{
+    left: 188px;
+}
+#ui{
+    left: 137px;
+}
+#ux{
+    left: 169px;
+}
+
+#english{
+    width: 100%;
+    text-align: center;
+    clear: both;
+    height: 100px;
+}
+#english p {
+    position: relative;
+    right: 26px;
+    top: -54px;
+    font-family: 'Signika';
+    font-style: italic;
+    font-weight: 100;
+    font-display: initial;
+    font-size: 18px;
+    margin-bottom: 0;
+}
+#english span {
+    color: #CED4DD;
+    position: relative;
+    top:80px;
+    font-size: 130px;
+    margin-top: 0;
+}
+#english span:nth-child(1){
+    right: 25px;
+}
+#english span:nth-child(2){
+    right: 15px;
+}
