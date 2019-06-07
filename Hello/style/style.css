@@ -1,25 +1,25 @@
 @font-face { 
     font-family: 'Lato';
-    src: url("/fonts/Lato/Lato-Regular.ttf") format("truetype");
+    src: url("fonts/Lato/Lato-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
 }
 @font-face { 
     font-family: 'Lato';
-    src: url("/fonts/Lato/Lato-Italic.ttf") format("truetype");
+    src: url("fonts/Lato/Lato-Italic.ttf") format("truetype");
     font-weight: 400;
     font-style: italic;
 }
 @font-face { 
     font-family: 'Lato';
-    src: url("/fonts/Lato/Lato-Bold.ttf") format("truetype");
+    src: url("fonts/Lato/Lato-Bold.ttf") format("truetype");
     font-weight: 600;
     font-style: bold;
 }
 
 @font-face { 
     font-family: 'Signika';
-    src: url("/fonts/Signika/Signika-Regular.ttf") format("truetype");
+    src: url("fonts/Signika/Signika-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
 }
@@ -103,16 +103,16 @@ h1, h2, h3, h4 {
 }
 
 .photoIcons p:nth-child(1) {
-    background: #16C4EC url(/images/icon-top-1.png) no-repeat 50% 18px;
+    background: #16C4EC url("images/icon-top-1.png") no-repeat 50% 18px;
 }
 .photoIcons p:nth-child(2) {
-    background: #FA5351 url(/images/icon-top-2.png) no-repeat 50% 18px;
+    background: #FA5351 url("images/icon-top-2.png") no-repeat 50% 18px;
 }
 .photoIcons p:nth-child(3) {
-    background: #10CDC1 url(/images/icon-top-3.png) no-repeat 50% 18px;
+    background: #10CDC1 url("images/icon-top-3.png") no-repeat 50% 18px;
 }
 .photoIcons p:nth-child(4) {
-    background: #33495F url(/images/icon-top-4.png) no-repeat 50% 18px;
+    background: #33495F url("images/icon-top-4.png") no-repeat 50% 18px;
 }
 
 /* description block */
@@ -235,7 +235,7 @@ h1, h2, h3, h4 {
 }
 .leftColumnBlock li{
     clear: both;
-    list-style-image: url("/images/list-deco.png");
+    list-style-image: url("images/list-deco.png");
     font-size: 16px;
     font-weight: 300;
     margin-left: 55px;
@@ -527,7 +527,7 @@ h1, h2, h3, h4 {
     float: right;
     width: 100%;
     height: 3px;
-    background: url("/images/dottedLine.png");
+    background: url("images/dottedLine.png");
     margin-top: 34px;
 }
 
@@ -647,22 +647,22 @@ h1, h2, h3, h4 {
     margin-right: auto;
 }
 .aboutBlock:nth-child(1) .aboutIcon{
-    background: #10CDC1 url("/images/about-web.png") no-repeat 50% 50%;
+    background: #10CDC1 url("images/about-web.png") no-repeat 50% 50%;
 }
 .aboutBlock:nth-child(2) .aboutIcon{
-    background: #16C4EC url("/images/about-serv.png") no-repeat 50% 50%;
+    background: #16C4EC url("images/about-serv.png") no-repeat 50% 50%;
 }
 .aboutBlock:nth-child(3) .aboutIcon{
-    background: #10CDC1 url("/images/about-mel.png") no-repeat 50% 50%;
+    background: #10CDC1 url("images/about-mel.png") no-repeat 50% 50%;
 }
 .aboutBlock:nth-child(4) .aboutIcon{
-    background: #FA5351 url("/images/about-fash.png") no-repeat 50% 50%;
+    background: #FA5351 url("images/about-fash.png") no-repeat 50% 50%;
 }
 .aboutBlock:nth-child(5) .aboutIcon{
-    background: #10CDC1 url("/images/about-epic.png") no-repeat 50% 50%;
+    background: #10CDC1 url("images/about-epic.png") no-repeat 50% 50%;
 }
 .aboutBlock:nth-child(6) .aboutIcon{
-    background: #16C4EC url("/images/about-voy.png") no-repeat 50% 50%;
+    background: #16C4EC url("images/about-voy.png") no-repeat 50% 50%;
 }
 
 
