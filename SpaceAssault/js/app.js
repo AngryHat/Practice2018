@@ -84,12 +84,72 @@ for(var i = 0; i < megalithsCount; i++)
     var randomX = Math.random() * (canvas.width - 120) + 60;
     var randomY = Math.random() * (canvas.height - 60);
 
-    megaliths.push({
-        pos: 
-        [randomX, randomY],
-        sprite: new Sprite('img/sprites_02.png', [3, 213], [55, 53], 0, [0], null, true)
-    });
+
+    // var megalithsCollisionPrevented = false;
+    // while (!megalithsCollisionPrevented)
+    // {
+    //     if (megaliths.length == 0)
+    //     {
+    //         megalithsCollisionPrevented = true;
+    //     }
+
+    //     for (var item in megaliths){
+    //         if (randomX > (item.pos[0] - item.sprite.size[0])
+    //             && randomX < item.pos[0] + item.sprite.size[0]){
+    //             randomX = Math.random() * (canvas.width - 120) + 60;
+    //             break;
+    //         }
+    //         else if (randomY > item.pos[1] - item.size[1]
+    //             && randomY < item.pos[1] + item.sprite.size[1]){
+    //             randomY = Math.random() * (canvas.height - 60);
+    //             break;
+    //         }
+    //         else {
+    //             megalithsCollisionPrevented = true;
+    //         }
+    //     }
+    // }
+
+    var megalithsCollisionPrevented = false;
     
+    while (!megalithsCollisionPrevented)
+    {
+        if (megaliths.length == 0)
+        {
+            megalithsCollisionPrevented = true;
+        }
+
+        for (var j = 0; j < i; j++){
+            if (randomX > (megaliths[j].pos[0] - megaliths[j].sprite.size[0])
+                && randomX < megaliths[j].pos[0] + megaliths[j].sprite.size[0]){
+                randomX = Math.random() * (canvas.width - 120) + 60;
+                break;
+            }
+            else if (randomY > megaliths[j].pos[1] - megaliths[j].sprite.size[1]
+                && randomY < megaliths[j].pos[1] + megaliths[j].sprite.size[1]){
+                randomY = Math.random() * (canvas.height - 60);
+                break;
+            }
+        megalithsCollisionPrevented = true;
+        }
+    }
+
+    if (Math.random() > 0.5)
+    {
+        megaliths.push({
+            pos: 
+            [randomX, randomY],
+            sprite: new Sprite('img/sprites_02.png', [3, 213], [55, 53], 0, [0], null, true)
+        });
+    }
+    else
+    {
+        megaliths.push({
+            pos: 
+            [randomX, randomY],
+            sprite: new Sprite('img/sprites_02.png', [5, 273], [48, 43], 0, [0], null, true)
+        });
+    }
 }
 
 // update
