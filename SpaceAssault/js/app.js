@@ -92,53 +92,69 @@ function createMegaliths()
 
     for(var i = 0; i < megalithsCount; i++)
     {
-        var randomX = Math.random() * (canvas.width - 120) + 60;
-        var randomY = Math.random() * (canvas.height - 60);
-
+        var randomX;
+        var randomY;
         var megalithsCollisionPrevented = false;
-        
-        while (!megalithsCollisionPrevented)
+
+        while(megalithsCollisionPrevented == false)
         {
-            if (megaliths.length == 0)
+            // random
+            randomX = Math.random() * (canvas.width - 120) + 60;
+            randomY = Math.random() * (canvas.height - 60);
+
+            // adding a new one
+            addMegalith();
+
+            if (megaliths.length == 1)
             {
                 megalithsCollisionPrevented = true;
+                break;
             }
 
-            for (var j = 0; j < i; j++){
-                if (randomX > (megaliths[j].pos[0] - megaliths[j].sprite.size[0])
-                    && randomX < megaliths[j].pos[0] + megaliths[j].sprite.size[0]){
-                    randomX = Math.random() * (canvas.width - 120) + 60;
+            // compare
+            for (var j = 0; j < i; j++)
+            {
+                var pos1 = megaliths[i].pos;
+                var pos2 = megaliths[j].pos;
+                var size1 = megaliths[i].sprite.size;
+                var size2 = megaliths[j].sprite.size;
+
+                // delete if there is collide
+                if (boxCollides(pos1, size1, pos2, size2))
+                {
+                    megaliths.pop();
+                    megalithsCollisionPrevented = false;
                     break;
                 }
-                else if (randomY > megaliths[j].pos[1] - megaliths[j].sprite.size[1]
-                    && randomY < megaliths[j].pos[1] + megaliths[j].sprite.size[1]){
-                    randomY = Math.random() * (canvas.height - 60);
+                else if (boxCollides(pos1, size1, [50, canvas.height/2], [150,150]))
+                {
+                    megaliths.pop();
+                    megalithsCollisionPrevented = false;
                     break;
                 }
-            megalithsCollisionPrevented = true;
+                
+                megalithsCollisionPrevented = true;
             }
         }
 
-        if (Math.random() > 0.5)
-        {
-            megaliths.push({
-                pos: 
-                [randomX, randomY],
-                sprite: new Sprite('img/sprites_02.png', [3, 213], [55, 53], 0, [0], null, true)
-            });
-        }
-        else
-        {
-            megaliths.push({
-                pos: 
-                [randomX, randomY],
-                sprite: new Sprite('img/sprites_02.png', [5, 273], [48, 43], 0, [0], null, true)
-            });
+        function addMegalith() {
+            if (Math.random() > 0.5) {
+                megaliths.push({
+                    pos: [randomX, randomY],
+                    sprite: new Sprite('img/sprites_02.png', [3, 213], [55, 53], 0, [0], null, true)
+                });
+            }
+            else {
+                megaliths.push({
+                    pos: [randomX, randomY],
+                    sprite: new Sprite('img/sprites_02.png', [5, 273], [48, 43], 0, [0], null, true)
+                });
+            }
         }
     }
 }
 
-createMegaliths();
+
 
 //manna
 var mannaCount;
@@ -151,42 +167,53 @@ function createManna()
     
     for(var i = 0; i < mannaCount; i++)
     {
-        var randomX = Math.random() * (canvas.width - 120) + 60;
-        var randomY = Math.random() * (canvas.height - 60);
-
+        var randomX;
+        var randomY;
         var mannaCollisionPrevented = false;
         
-        while (!mannaCollisionPrevented)
+        while (mannaCollisionPrevented == false)
         {
-            if (manna.length == 0)
+            // random
+            randomX = Math.random() * (canvas.width - 120) + 60;
+            randomY = Math.random() * (canvas.height - 60);
+
+            // adding a new one
+            addManna();
+
+            if (manna.length == 1)
             {
                 mannaCollisionPrevented = true;
+                break;
             }
 
-            for (var j = 0; j < i; j++){
-                if (randomX > (megaliths[j].pos[0] - megaliths[j].sprite.size[0])
-                    && randomX < megaliths[j].pos[0] + megaliths[j].sprite.size[0]){
-                    randomX = Math.random() * (canvas.width - 120) + 60;
-                    break;
-                }
-                else if (randomY > megaliths[j].pos[1] - megaliths[j].sprite.size[1]
-                    && randomY < megaliths[j].pos[1] + megaliths[j].sprite.size[1]){
-                    randomY = Math.random() * (canvas.height - 60);
+            // compare with mgs
+            for (var j = 0; j < megaliths.length; j++)
+            {
+                var pos1 = manna[i].pos;
+                var pos2 = megaliths[j].pos;
+                var size1 = [80,80];
+                var size2 = megaliths[j].sprite.size;
+
+                // delete if there is collides megaliths
+                if (boxCollides(pos1, size1, pos2, size2))
+                {
+                    // alert('mana mg coll')
+                    manna.pop();
+                    mannaCollisionPrevented = false;
                     break;
                 }
                 mannaCollisionPrevented = true;
             }
         }
+    }
 
+    function addManna() {
         manna.push({
-            pos: 
-            [randomX, randomY],
+            pos: [randomX, randomY],
             sprite: new Sprite('img/sprites_02.png', [0, 160], [56, 50], 10, [0, 1])
         });
     }
 }
-
-createManna();
 
 
 // update
@@ -376,25 +403,12 @@ function checkCollisions() {
             if((player.pos[0] > pos[0] - size[0]) 
                 && (player.pos[0] < pos[0]))
             {
-                rightMovingBlocked = true;
-                // player.pos[0] = pos[0] - player.sprite.size[0]
+                player.pos[0] -= 4;
             }
             else if((player.pos[0] < pos[0] + size[0]) 
             && (player.pos[0] > pos[0]))
             {
-                leftMovingBlocked = true;
-                // player.pos[0] = pos[0] + size[0]
-            }
-
-            if(player.pos[1] > pos[1] - size[1]) 
-            {
-                upMovingBlocked = true;
-                // player.pos[1] = pos[1] - player.sprite.size[1]
-            }
-            if(player.pos[1] < pos[1] + size[1])
-            {
-                downMovingBlocked = true;
-                // player.pos[1] = pos[1] + player.sprite.size[1]
+                player.pos[0] += 4;
             }
         }
     }
@@ -458,6 +472,28 @@ function checkCollisions() {
         }
     }
 
+    //checking collides between manna and megaliths
+    for(var i=0; i<megaliths.length; i++) {
+        var pos = megaliths[i].pos;
+        var size = megaliths[i].sprite.size;
+
+        for(var j=0; j<manna.length; j++) {
+            var pos2 = manna[j].pos;
+            var size2 = manna[j].sprite.size;
+
+            if(boxCollides(pos, size, pos2, size2)) {
+                if(pos2[0] < pos[0] + size[0] + 10 && pos2[1] > pos[1])
+                {
+                    pos2[1] += 0.3;
+                }
+                else if(pos2[0] < pos[0] + size[0] && pos2[1] < pos[1])
+                {
+                    pos2[1] -= 0.3;
+                }
+            }
+        }
+    }
+
     // run collision detection for all enemies and bullets
     for(var i=0; i<enemies.length; i++) {
         var pos = enemies[i].pos;
@@ -495,7 +531,7 @@ function checkCollisions() {
 
         //player enemies collision
         if(boxCollides(pos, size, player.pos, player.sprite.size)) {
-            gameOver();
+            // gameOver();
             //game over OFF
         }
     }
