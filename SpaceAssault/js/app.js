@@ -30,7 +30,7 @@ function main() {
 };
 
 function init() {
-    terrainPattern = ctx.createPattern(resources.get('img/terrain_02.png'), 'repeat');
+    terrainPattern = ctx.createPattern(resources.get('img/terrain.png'), 'repeat');
 
     document.getElementById('play-again').addEventListener('click', function() {
         reset();
@@ -43,7 +43,7 @@ function init() {
 
 resources.load([
     'img/sprites_02.png',
-    'img/terrain_02.png'
+    'img/terrain.png'
 ]);
 resources.onReady(init);
 
@@ -99,7 +99,7 @@ function createMegaliths()
         while(megalithsCollisionPrevented == false)
         {
             // random
-            randomX = Math.random() * (canvas.width - 120) + 60;
+            randomX = Math.random() * (canvas.width - 170) + 110;
             randomY = Math.random() * (canvas.height - 60);
 
             // adding a new one
@@ -531,7 +531,7 @@ function checkCollisions() {
 
         //player enemies collision
         if(boxCollides(pos, size, player.pos, player.sprite.size)) {
-            // gameOver();
+            gameOver();
             //game over OFF
         }
     }
