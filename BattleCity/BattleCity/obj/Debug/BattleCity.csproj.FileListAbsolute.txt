@@ -1,0 +1,20 @@
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\BattleCity TEST\BattleCity\BattleCity\bin\Debug\BattleCity.exe.config
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\BattleCity TEST\BattleCity\BattleCity\bin\Debug\BattleCity.exe
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\BattleCity TEST\BattleCity\BattleCity\bin\Debug\BattleCity.pdb
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\BattleCity TEST\BattleCity\BattleCity\obj\Debug\BattleCity.csprojAssemblyReference.cache
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\BattleCity TEST\BattleCity\BattleCity\obj\Debug\BattleCity.Form1.resources
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\BattleCity TEST\BattleCity\BattleCity\obj\Debug\BattleCity.Properties.Resources.resources
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\BattleCity TEST\BattleCity\BattleCity\obj\Debug\BattleCity.csproj.GenerateResource.cache
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\BattleCity TEST\BattleCity\BattleCity\obj\Debug\BattleCity.csproj.CoreCompileInputs.cache
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\BattleCity TEST\BattleCity\BattleCity\obj\Debug\BattleCity.exe
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\BattleCity TEST\BattleCity\BattleCity\obj\Debug\BattleCity.pdb
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\bin\Debug\BattleCity.exe.config
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\bin\Debug\BattleCity.exe
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\bin\Debug\BattleCity.pdb
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\obj\Debug\BattleCity.csprojAssemblyReference.cache
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\obj\Debug\BattleCity.MainForm.resources
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\obj\Debug\BattleCity.Properties.Resources.resources
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\obj\Debug\BattleCity.csproj.GenerateResource.cache
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\obj\Debug\BattleCity.csproj.CoreCompileInputs.cache
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\obj\Debug\BattleCity.exe
+C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\obj\Debug\BattleCity.pdb
