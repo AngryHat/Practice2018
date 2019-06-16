@@ -39,7 +39,7 @@
             this.ClientSize = new System.Drawing.Size(800, 518);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.OnKeyPressed);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PlayerDirectionControl);
             this.ResumeLayout(false);
 
         }
