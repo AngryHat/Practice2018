@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BattleCity
 {
@@ -11,6 +12,13 @@ namespace BattleCity
     {
         public enum Direction { right, left, up, down };
         public Direction direction;
+        public Rectangle collider {
+            get
+            {
+
+                return new Rectangle(posX, posY, image.Width, image.Height);
+            }
+        }
 
         public Size size = new Size(48,48);
         public Image image;
@@ -49,23 +57,51 @@ namespace BattleCity
 
         public int topBorder
         {
-            get { return posY; }
+            get
+            {
+                if (direction == Direction.up)
+                {
+                    return (posY - 5);
+                }
+                else return posY;
+            }
         }
         public int leftBorder
         {
-            get { return posX; }
+            get
+            {
+                if (direction == Direction.left)
+                {
+                    return (posX - 5);
+                }
+                else return posX;
+            }
         }
         public int rightBorder
         {
-            get { return (posX + image.Size.Height); }
+            get
+            {
+                if (direction == Direction.right)
+                {
+                    return (posX + image.Size.Width + 5);
+                }
+                else return (posX + image.Size.Width);
+            }
         }
         public int bottomBorder
         {
-            get { return (posY + image.Size.Height); }
+            get
+            {
+                if (direction == Direction.down)
+                {
+                    return (posY + image.Size.Height + 5);
+                }
+                else return (posY + image.Size.Height);
+            }
         }
 
         //turn 180 degrees
-        public void TurnAround()
+        public virtual void TurnAround()
         {
             switch (direction)
             {
@@ -115,18 +151,66 @@ namespace BattleCity
     // enemy class
     public class Enemy : GameObject
     {
+        //own features
         public int directionStep;
+        public Timer turnaroundTimer;
+        public bool turnaroundReady;
+
+
         public Enemy()
         {
             direction = Direction.right;
-            posX = 48;
-            posY = 48;
+            //default position
+            posX = 96;
+            posY = 96;
             image = new Bitmap(Properties.Resources.enemy, size);
+
+            //testing value 
+            turnaroundTimer = new Timer();
+            turnaroundTimer.Interval = 200;
+            turnaroundTimer.Start();
+            turnaroundTimer.Tick += resetTurnaroundCooldown;
+            turnaroundReady = true;
         }
         public Enemy(int x, int y) : this()
         {
             posX = x;
             posY = y;
+        }
+
+        public void resetTurnaroundCooldown(object sender, EventArgs e)
+        {
+            turnaroundReady = true;
+        }
+
+        public override void TurnAround()
+        {
+            if (turnaroundReady)
+            {
+                switch (direction)
+                {
+                    case Direction.down:
+                        direction = Direction.up;
+                        turnaroundReady = false;
+                        turnaroundTimer.Start();
+                        break;
+                    case Direction.up:
+                        direction = Direction.down;
+                        turnaroundReady = false;
+                        turnaroundTimer.Start();
+                        break;
+                    case Direction.left:
+                        direction = Direction.right;
+                        turnaroundReady = false;
+                        turnaroundTimer.Start();
+                        break;
+                    case Direction.right:
+                        direction = Direction.left;
+                        turnaroundReady = false;
+                        turnaroundTimer.Start();
+                        break;
+                }
+            }
         }
     }
 
@@ -135,13 +219,50 @@ namespace BattleCity
     {
         public Bullet()
         {
+            size = new Size(12, 12);
             image = new Bitmap(Properties.Resources.bullet, size);
         }
-        public Bullet(GameObject stooter) :this()
+        public Bullet(GameObject shooter) :this()
         {
-            direction = stooter.direction;
-            posX = stooter.posX;
-            posY = stooter.posY;
+            direction = shooter.direction;
+            if (shooter.direction == Direction.up)
+            {
+                posY = shooter.posY;
+                posX = shooter.posX + (shooter.image.Width / 2 - image.Width / 2);
+            }
+            else if (shooter.direction == Direction.down)
+            {
+                posY = shooter.posY + (shooter.image.Width);
+                posX = shooter.posX + (shooter.image.Width / 2 - image.Width / 2);
+            }
+            else if (shooter.direction == Direction.left)
+            {
+                posX = shooter.posX;
+                posY = shooter.posY + (shooter.image.Width / 2 - image.Width / 2);
+            }
+            else if (shooter.direction == Direction.right)
+            {
+                posX = shooter.posX + (shooter.image.Width);
+                posY = shooter.posY + (shooter.image.Width / 2 - image.Width / 2);
+            }
+        }
+    }
+
+    // apple classes
+    public class Apple : GameObject
+    {
+        public Apple()
+        {
+            direction = Direction.right;
+            posX = 96;
+            posY = 96;
+            image = new Bitmap(Properties.Resources.apple, size);
+        }
+
+        public Apple(int x, int y) : this()
+        {
+            posX = x;
+            posY = y;
         }
     }
 

@@ -112,7 +112,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\apple.png" />
     <Content Include="Resources\bullet.png" />
+    <Content Include="Resources\bullet_small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

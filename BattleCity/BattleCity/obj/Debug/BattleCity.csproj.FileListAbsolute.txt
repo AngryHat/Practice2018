@@ -19,3 +19,14 @@ C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\Battle
 C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\obj\Debug\BattleCity.pdb
 C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\obj\Debug\BattleCity.MainForm.resources
 C:\Users\Elijah\Desktop\EPAM .NET\[.NET] Internal\Practice2018\BattleCity\BattleCity\obj\Debug\BattleCity.g.resources
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\bin\Debug\BattleCity.exe.config
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\bin\Debug\BattleCity.exe
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\bin\Debug\BattleCity.pdb
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.csprojAssemblyReference.cache
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.g.resources
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.MainForm.resources
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.Properties.Resources.resources
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.csproj.GenerateResource.cache
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.csproj.CoreCompileInputs.cache
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.exe
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.pdb

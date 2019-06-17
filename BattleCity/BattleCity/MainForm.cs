@@ -14,10 +14,11 @@ namespace BattleCity
     {
         private PictureBox mainFrame;
 
-        int levelWidth = 16;
-        int levelHeight = 16;
+        int levelWidth = 14;
+        int levelHeight = 14;
         int spriteSize = 48;
-        int enemiesMax = 5;
+        int enemiesMax = 6;
+        int applesMax = 3;
 
         static int speed = 2;
 
@@ -25,7 +26,7 @@ namespace BattleCity
         public List<GameObject> enemies;
         public List<GameObject> walls;
         public List<GameObject> playerBullets;
-        public List<GameObject> enemyBullets;
+        public List<GameObject> apples;
 
         public int directionStep;
         public bool playerBulletReady;
@@ -41,17 +42,21 @@ namespace BattleCity
             Timer timer = new Timer();
             timer.Interval = 10;
             Timer bulletCooldown = new Timer();
-            bulletCooldown.Interval = 1500;
+            bulletCooldown.Interval = 1000 / speed;
             Timer enemiesRespawn = new Timer();
-            bulletCooldown.Interval = 2000;
+            enemiesRespawn.Interval = 1000;
 
             GenerateLeveBackGround();
             pl = new Player();
             enemies = new List<GameObject>();
-
+            walls = new List<GameObject>();
+            apples = new List<GameObject>();
+            
+            walls.Add(new Wall(100, 100));
+            walls.Add(new Wall(200, 200));
+            walls.Add(new Wall(300, 300));
 
             //creating wall around level
-            walls = new List<GameObject>();
             for (int i = 0; i < levelWidth; i++)
             {
                 walls.Add(new Wall(i * spriteSize, 0));
@@ -71,6 +76,7 @@ namespace BattleCity
             mainFrame.Paint += new PaintEventHandler(PaintEnemy);
             mainFrame.Paint += new PaintEventHandler(PaintWalls);
             mainFrame.Paint += new PaintEventHandler(PaintBullets);
+            mainFrame.Paint += new PaintEventHandler(PaintApples);
 
             Controls.Add(mainFrame);
             InitializeComponent();
@@ -80,10 +86,9 @@ namespace BattleCity
             bulletCooldown.Start();
             bulletCooldown.Tick += new EventHandler(resetCooldown);
             enemiesRespawn.Start();
-            bulletCooldown.Tick += new EventHandler(GenerateEnemies);
+            enemiesRespawn.Tick += new EventHandler(GenerateEnemies);
         }
-
-        //Creating field woth backgorund and size
+        
         void GenerateLeveBackGround()
         {
             mainFrame.BackgroundImage = new Bitmap(Properties.Resources.grass);
@@ -96,10 +101,21 @@ namespace BattleCity
             if (enemies.Count < enemiesMax)
             {
                 Random rnd = new Random();
-                enemies.Add(new Enemy((rnd.Next(levelWidth * spriteSize - 100) + 50), (rnd.Next(levelHeight * spriteSize) - 100) + 50));
+                enemies.Add(new Enemy((rnd.Next(mainFrame.Width - spriteSize * 3) + spriteSize),
+                                      (rnd.Next(mainFrame.Height - spriteSize * 3) + spriteSize)));
+            }
+        }
+        void GenerateApples(object sender, EventArgs e)
+        {
+            if (apples.Count < applesMax)
+            {
+                Random rnd = new Random();
+                apples.Add(new Apple((rnd.Next(mainFrame.Width - spriteSize * 3) + spriteSize),
+                                      (rnd.Next(mainFrame.Height - spriteSize * 3) + spriteSize)));
             }
         }
 
+        //Painting section
         //Painting player
         private void PaintPlayer(object sender, PaintEventArgs e)
         {
@@ -129,13 +145,6 @@ namespace BattleCity
                     e.Graphics.DrawImage(bullet.dynamicImage, bullet.pos);
                 }
             }
-            if (enemyBullets != null)
-            {
-                foreach (Bullet bullet in enemyBullets)
-                {
-                    e.Graphics.DrawImage(bullet.dynamicImage, bullet.pos);
-                }
-            }
         }
         //Painting walls
         private void PaintWalls(object sender, PaintEventArgs e)
@@ -148,7 +157,19 @@ namespace BattleCity
                 }
             }
         }
+        //Painting apples
+        private void PaintApples(object sender, PaintEventArgs e)
+        {
+            if (apples != null)
+            {
+                foreach (Apple apple in apples)
+                {
+                    e.Graphics.DrawImage(apple.image, apple.pos);
+                }
+            }
+        }
 
+        //shooting section
         void PlayerShoot()
         {
             if (playerBulletReady)
@@ -157,41 +178,20 @@ namespace BattleCity
                 playerBulletReady = false;
             }
         }
-
-        //bullet cooldown
         void resetCooldown(object sender, EventArgs e)
         {
             playerBulletReady = true;
-
         }
-        //update func
+
+
+        //UPDATE func
         void _update(object sender, EventArgs e)
         {
             GenerateEnemies(sender, e);
-            //player movement
-            switch (pl.direction)
-            {
-                case GameObject.Direction.right:
-                    pl.posX += speed;
-                    break;
+            GenerateApples(sender, e);
 
-                case GameObject.Direction.left:
-                    pl.posX -= speed;
-                    break;
+            //MOVEMENT SECTION
 
-                case GameObject.Direction.up:
-                    pl.posY -= speed;
-                    break;
-
-                case GameObject.Direction.down:
-                    pl.posY += speed;
-                    break;
-            }
-            //player collides level boundaries
-            if ((pl.leftBorder == 0) || (pl.rightBorder == mainFrame.Width) || (pl.topBorder == 0) || (pl.bottomBorder == mainFrame.Height))
-            {
-                pl.TurnAround();
-            }
             //bullet movement
             foreach (Bullet bullet in playerBullets)
             {
@@ -215,16 +215,25 @@ namespace BattleCity
                         break;
                 }
             }
-            //removing bullets
-            for (int i = 0; i < playerBullets.Count; i++)
+            //player movement
+            switch (pl.direction)
             {
-                if (playerBullets[i].posX == levelWidth || playerBullets[i].posX == 0 || playerBullets[i].posY == levelHeight || playerBullets[i].posY == 0)
-                {
-                    playerBullets.Remove(playerBullets[i]);
-                }
+                case GameObject.Direction.right:
+                    pl.posX += speed;
+                    break;
+
+                case GameObject.Direction.left:
+                    pl.posX -= speed;
+                    break;
+
+                case GameObject.Direction.up:
+                    pl.posY -= speed;
+                    break;
+
+                case GameObject.Direction.down:
+                    pl.posY += speed;
+                    break;
             }
-
-
             //enemy movement
             foreach (Enemy en in enemies)
             {
@@ -248,7 +257,91 @@ namespace BattleCity
                         break;
                 }
             }
-            //enemy random direction
+
+            //PLAYER SECTION
+
+            //player reach level boundaries !WORKS
+            if (pl.leftBorder < 0)
+            {
+                pl.posX = 0;
+                pl.TurnAround();
+            }
+            else if (pl.rightBorder > mainFrame.Width)
+            {
+                pl.posX = mainFrame.Width - pl.image.Width;
+                pl.TurnAround();
+            }
+            else if (pl.topBorder < 0)
+            {
+                pl.posY = 0;
+                pl.TurnAround();
+            }
+            else if (pl.bottomBorder > mainFrame.Height)
+            {
+                pl.posY = mainFrame.Height - pl.image.Height;
+                pl.TurnAround();
+            }
+            //player - wall collision !WORKS
+            foreach (Wall wall in walls)
+            {
+                if (boxCollides(pl, wall))
+                {
+                    if (pl.direction == GameObject.Direction.left)
+                    {
+                        pl.posX = wall.rightBorder;
+                    }
+                    else if (pl.direction == GameObject.Direction.right)
+                    {
+                        pl.posX = wall.leftBorder - pl.image.Width;
+                    }
+                    if (pl.direction == GameObject.Direction.up)
+                    {
+                        pl.posY = wall.bottomBorder;
+                    }
+                    else if (pl.direction == GameObject.Direction.down)
+                    {
+                        pl.posY = wall.topBorder - pl.image.Height;
+                    }
+                    pl.TurnAround();
+                }
+            }
+            //player - apple collision //SCORE+
+            for (int i = 0; i < apples.Count; i++)
+            {
+                if (boxCollides(pl, apples[i]))
+                {
+                    apples.Remove(apples[i]);
+                    //NOT FINISHED YET
+                }
+            }
+
+            //ENEMY SECTION
+
+            //enemy reach level boundaries !WORKS
+            foreach (Enemy en in enemies)
+            {
+                if (en.leftBorder < 0)
+                {
+                    en.posX = 0;
+                    en.TurnAround();
+                }
+                else if (en.rightBorder > mainFrame.Width)
+                {
+                    en.posX = mainFrame.Width - en.image.Width;
+                    en.TurnAround();
+                }
+                else if (en.topBorder < 0)
+                {
+                    en.posY = 0;
+                    en.TurnAround();
+                }
+                else if (en.bottomBorder > mainFrame.Height)
+                {
+                    en.posY = mainFrame.Height - en.image.Height;
+                    en.TurnAround();
+                }
+            }
+            //enemy random direction !!!CHECK NEED
             foreach (Enemy en in enemies)
             {
                 if (en.directionStep >= en.image.Width)
@@ -256,7 +349,7 @@ namespace BattleCity
                     en.directionStep = 0;
 
                     Random rnd = new Random();
-                    int newDirection = rnd.Next(1, 6);
+                    int newDirection = rnd.Next(1, 7);
                     switch (newDirection)
                     {
                         case 1:
@@ -279,17 +372,42 @@ namespace BattleCity
                     }
                 }
             }
-
-            //enemy collides level boundaries
+            //enemy - wall colission !WORKS
             foreach (Enemy en in enemies)
             {
-                if ((en.leftBorder == 0) || (en.rightBorder == mainFrame.Width) || (en.topBorder == 0) || (en.bottomBorder == mainFrame.Height))
+                foreach (Wall wall in walls)
                 {
-                    en.TurnAround();
+                    if (boxCollides(en, wall))
+                    {
+                        en.TurnAround();
+                    }
                 }
             }
-                
-            //colliders at work
+            //enemy - enemy collision ???
+            foreach (Enemy en in enemies)
+            {
+                foreach (Enemy en2 in enemies)
+                {
+                    if (boxCollides(en, en2) && en != en2)
+                    {
+                        en.TurnAround();
+                    }
+                }
+            }
+
+
+
+            //BULLETS SECTION
+
+            // removing bullets !WORKS
+            for (int i = 0; i < playerBullets.Count; i++)
+            {
+                if (playerBullets[i].posX == levelWidth || playerBullets[i].posX == 0 || playerBullets[i].posY == levelHeight || playerBullets[i].posY == 0)
+                {
+                    playerBullets.Remove(playerBullets[i]);
+                }
+            }
+            // bullet - enemy collision !WORKS
             for (int i = 0; i < playerBullets.Count; i++)
             {
                 for (int j = 0; j < enemies.Count; j ++)
@@ -297,19 +415,6 @@ namespace BattleCity
                     if (boxCollides(enemies[j], playerBullets[i]))
                     {
                         enemies.Remove(enemies[j]);
-                        //enemy down
-                        //boom animation must be here
-                    }
-                }
-            }
-            foreach (Enemy en in enemies)
-            {
-                foreach (Enemy en2 in enemies)
-                {
-                    if (boxCollides(en, en2))
-                    {
-                        en.TurnAround();
-                        en2.TurnAround();
                     }
                 }
             }
@@ -345,21 +450,36 @@ namespace BattleCity
             }
         }
 
-        //collisions
-        bool collides(int leftBorder, int topBorder, int rightBorder, int bottomBorder, int leftBorder2, int topBorder2, int rightBorder2, int bottomBorder2)
-        {
-            return !(rightBorder <= leftBorder2 || leftBorder > rightBorder2 || bottomBorder <= topBorder2 || topBorder > bottomBorder2);
-        }
+        //COLLISIOONS SECTION
 
+        //VER1
+        //bool collides(int leftBorder, int topBorder, int rightBorder, int bottomBorder, int leftBorder2, int topBorder2, int rightBorder2, int bottomBorder2)
+        //{
+        //    return !(rightBorder <= leftBorder2 || leftBorder > rightBorder2 || bottomBorder <= topBorder2 || topBorder > bottomBorder2);
+        //}
+
+        //bool boxCollides(GameObject obj1, GameObject obj2)
+        //{
+        //    Point pos1 = obj1.pos;
+        //    Point pos2 = obj2.pos;
+        //    Image image1 = obj1.image;
+        //    Image image2 = obj2.image;
+
+        //    return collides(obj1.leftBorder, obj1.topBorder, obj1.rightBorder, obj1.bottomBorder, obj2.leftBorder, obj2.topBorder,obj2.rightBorder,obj2.bottomBorder);
+        //}
+
+        //VER2
         bool boxCollides(GameObject obj1, GameObject obj2)
         {
-            Point pos1 = obj1.pos;
-            Point pos2 = obj2.pos;
-            Image image1 = obj1.image;
-            Image image2 = obj2.image;
-
-            return collides(pos1.X, pos1.Y, pos1.X + image1.Width, pos1.Y + image1.Height,
-                            pos2.X, pos2.Y, pos2.X + image1.Width, pos2.Y + image1.Height);
+            if (obj1.collider.IntersectsWith(obj2.collider))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
+
     }
 }
