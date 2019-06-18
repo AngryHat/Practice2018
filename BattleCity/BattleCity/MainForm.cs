@@ -14,10 +14,10 @@ namespace BattleCity
     {
         private PictureBox mainFrame;
 
-        int levelWidth = 14;
-        int levelHeight = 14;
+        int levelWidth = 17;
+        int levelHeight = 17;
         int spriteSize = 48;
-        int enemiesMax = 6;
+        int enemiesMax = 5;
         int applesMax = 3;
 
         static int speed = 2;
@@ -32,6 +32,10 @@ namespace BattleCity
         public bool playerBulletReady;
         public bool enemyBulletReady;
 
+        Timer mainTimer;
+        Timer bulletCooldown;
+        Timer enemiesRespawn;
+
         //not using yet
         bool GameOver;
 
@@ -39,22 +43,62 @@ namespace BattleCity
         {
             mainFrame = new PictureBox();
 
-            Timer timer = new Timer();
-            timer.Interval = 10;
-            Timer bulletCooldown = new Timer();
+            mainTimer = new Timer();
+            mainTimer.Interval = 10;
+            bulletCooldown = new Timer();
             bulletCooldown.Interval = 1000 / speed;
-            Timer enemiesRespawn = new Timer();
+            enemiesRespawn = new Timer();
             enemiesRespawn.Interval = 1000;
 
-            GenerateLeveBackGround();
+            
             pl = new Player();
             enemies = new List<GameObject>();
             walls = new List<GameObject>();
             apples = new List<GameObject>();
+            playerBullets = new List<GameObject>();
+
+            GameOver = false;
+
+            LoadLevel();
+            //LoadMenu();
             
-            walls.Add(new Wall(100, 100));
-            walls.Add(new Wall(200, 200));
-            walls.Add(new Wall(300, 300));
+
+            
+
+            
+
+            mainFrame.Paint += new PaintEventHandler(PaintPlayer);
+            mainFrame.Paint += new PaintEventHandler(PaintEnemy);
+            mainFrame.Paint += new PaintEventHandler(PaintWalls);
+            mainFrame.Paint += new PaintEventHandler(PaintBullets);
+            mainFrame.Paint += new PaintEventHandler(PaintApples);
+
+            Controls.Add(mainFrame);
+            InitializeComponent();
+
+            //Game start
+            mainTimer.Start();
+            mainTimer.Tick += new EventHandler(_update);
+            bulletCooldown.Start();
+            bulletCooldown.Tick += new EventHandler(resetCooldown);
+            enemiesRespawn.Start();
+            enemiesRespawn.Tick += new EventHandler(GenerateEnemies);
+        }
+
+        void LoadMenu()
+        {
+            PictureBox startMenu = new PictureBox();
+            startMenu.Width = mainFrame.Width;
+            startMenu.Height = mainFrame.Height;
+            startMenu.Image = Properties.Resources.apple;
+            startMenu.BackColor = Color.FromArgb(120, Color.Black);
+            startMenu.Parent = mainFrame;
+            Controls.Add(startMenu);
+        }
+
+        void LoadLevel()
+        {
+            GenerateLeveBackGround();
 
             //creating wall around level
             for (int i = 0; i < levelWidth; i++)
@@ -67,28 +111,62 @@ namespace BattleCity
                 walls.Add(new Wall(0, i * spriteSize));
                 walls.Add(new Wall(levelHeight * spriteSize - spriteSize, i * spriteSize));
             }
+            //LEVEL WALLS
+            walls.Add(new Wall(1, 4, true));
+            walls.Add(new Wall(2, 4, true));
+            walls.Add(new Wall(3, 4, true));
+            walls.Add(new Wall(4, 4, true));
 
-            playerBullets = new List<GameObject>();
+            walls.Add(new Wall(15, 4, true));
+            walls.Add(new Wall(14, 4, true));
+            walls.Add(new Wall(13, 4, true));
+            walls.Add(new Wall(12, 4, true));
 
-            GameOver = false;
+            walls.Add(new Wall(8, 4, true));
+            walls.Add(new Wall(8, 5, true));
+            walls.Add(new Wall(8, 6, true));
+            walls.Add(new Wall(8, 7, true));
+            walls.Add(new Wall(7, 6, true));
+            walls.Add(new Wall(9, 6, true));
 
-            mainFrame.Paint += new PaintEventHandler(PaintPlayer);
-            mainFrame.Paint += new PaintEventHandler(PaintEnemy);
-            mainFrame.Paint += new PaintEventHandler(PaintWalls);
-            mainFrame.Paint += new PaintEventHandler(PaintBullets);
-            mainFrame.Paint += new PaintEventHandler(PaintApples);
+            walls.Add(new Wall(5, 1, true));
+            walls.Add(new Wall(6, 1, true));
 
-            Controls.Add(mainFrame);
-            InitializeComponent();
+            walls.Add(new Wall(11, 1, true));
+            walls.Add(new Wall(12, 1, true));
 
-            timer.Start();
-            timer.Tick += new EventHandler(_update);
-            bulletCooldown.Start();
-            bulletCooldown.Tick += new EventHandler(resetCooldown);
-            enemiesRespawn.Start();
-            enemiesRespawn.Tick += new EventHandler(GenerateEnemies);
+            walls.Add(new Wall(4, 8, true));
+            walls.Add(new Wall(4, 9, true));
+            walls.Add(new Wall(5, 9, true));
+
+            walls.Add(new Wall(13, 8, true));
+            walls.Add(new Wall(13, 9, true));
+            walls.Add(new Wall(12, 9, true));
+
+            walls.Add(new Wall(6, 12, true));
+            walls.Add(new Wall(7, 12, true));
+            walls.Add(new Wall(8, 12, true));
+            walls.Add(new Wall(9, 12, true));
+            walls.Add(new Wall(10, 12, true));
+            walls.Add(new Wall(6, 13, true));
+            walls.Add(new Wall(10, 13, true));
+            walls.Add(new Wall(10, 13, true));
+            walls.Add(new Wall(8, 11, true));
+            walls.Add(new Wall(8, 10, true));
+
+            walls.Add(new Wall(1, 13, true));
+            walls.Add(new Wall(2, 13, true));
+
+            walls.Add(new Wall(15, 13, true));
+            walls.Add(new Wall(14, 13, true));
         }
-        
+
+        void ShowGameOverScreen()
+        {
+            mainTimer.Stop();
+            mainTimer.Tick -= _update;
+        }
+
         void GenerateLeveBackGround()
         {
             mainFrame.BackgroundImage = new Bitmap(Properties.Resources.grass);
@@ -100,18 +178,101 @@ namespace BattleCity
         {
             if (enemies.Count < enemiesMax)
             {
-                Random rnd = new Random();
-                enemies.Add(new Enemy((rnd.Next(mainFrame.Width - spriteSize * 3) + spriteSize),
-                                      (rnd.Next(mainFrame.Height - spriteSize * 3) + spriteSize)));
+                int randomX = 0;
+                int randomY = 0;
+
+                while (randomX == 0 && randomY == 0)
+                {
+                    Random rnd = new Random();
+                    randomX = rnd.Next(mainFrame.Width - spriteSize * 3) + spriteSize;
+                    randomY = rnd.Next(mainFrame.Height - spriteSize * 3) + spriteSize;
+
+                    Rectangle enlargedPlayerCollider = new Rectangle(pl.posX - spriteSize * 2, pl.posY - spriteSize * 2, spriteSize * 5, spriteSize * 5);
+
+                    if (enemies.Count == 0)
+                    {
+                        break;
+                    }
+
+                    if (boxCollides(randomX, randomY, enlargedPlayerCollider))
+                    {
+                        randomX = 0;
+                        randomY = 0;
+                        continue;
+                    }
+
+                    foreach (Enemy en in enemies)
+                    {
+                        if (boxCollides(randomX, randomY, en))
+                        {
+                            randomX = 0;
+                            randomY = 0;
+                            break;
+                        }
+                    }
+
+                    foreach (Wall wall in walls)
+                    {
+                        if (boxCollides(randomX, randomY, wall))
+                        {
+                            randomX = 0;
+                            randomY = 0;
+                            break;
+                        }
+                    }
+                }
+                enemies.Add(new Enemy(randomX, randomY));
             }
         }
+
         void GenerateApples(object sender, EventArgs e)
         {
             if (apples.Count < applesMax)
             {
-                Random rnd = new Random();
-                apples.Add(new Apple((rnd.Next(mainFrame.Width - spriteSize * 3) + spriteSize),
-                                      (rnd.Next(mainFrame.Height - spriteSize * 3) + spriteSize)));
+                int randomX = 0;
+                int randomY = 0;
+
+                while (randomX == 0 && randomY == 0)
+                {
+                    Random rnd = new Random();
+                    randomX = rnd.Next(mainFrame.Width - spriteSize * 3) + spriteSize;
+                    randomY = rnd.Next(mainFrame.Height - spriteSize * 3) + spriteSize;
+
+                    Rectangle enlargedPlayerCollider = new Rectangle(pl.posX - spriteSize * 2, pl.posY - spriteSize * 2, spriteSize * 5, spriteSize * 5);
+
+                    if (apples.Count == 0)
+                    {
+                        break;
+                    }
+
+                    if (boxCollides(randomX, randomY, enlargedPlayerCollider))
+                    {
+                        randomX = 0;
+                        randomY = 0;
+                        continue;
+                    }
+
+                    foreach (Apple apple in apples)
+                    {
+                        if (boxCollides(randomX, randomY, apple))
+                        {
+                            randomX = 0;
+                            randomY = 0;
+                            break;
+                        }
+                    }
+
+                    foreach (Wall wall in walls)
+                    {
+                        if (boxCollides(randomX, randomY, wall))
+                        {
+                            randomX = 0;
+                            randomY = 0;
+                            break;
+                        }
+                    }
+                }
+                apples.Add(new Apple(randomX, randomY));
             }
         }
 
@@ -187,7 +348,12 @@ namespace BattleCity
         //UPDATE func
         void _update(object sender, EventArgs e)
         {
-            GenerateEnemies(sender, e);
+            if (GameOver)
+            {
+                ShowGameOverScreen();
+            }
+
+            //GenerateEnemies(sender, e);
             GenerateApples(sender, e);
 
             //MOVEMENT SECTION
@@ -311,7 +477,14 @@ namespace BattleCity
                 if (boxCollides(pl, apples[i]))
                 {
                     apples.Remove(apples[i]);
-                    //NOT FINISHED YET
+                }
+            }
+            //player - enemy collision //SCORE+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (boxCollides(pl, enemies[i]))
+                {
+                    GameOver = true;
                 }
             }
 
@@ -410,11 +583,24 @@ namespace BattleCity
             // bullet - enemy collision !WORKS
             for (int i = 0; i < playerBullets.Count; i++)
             {
-                for (int j = 0; j < enemies.Count; j ++)
+                for (int j = 0; j < enemies.Count; j++)
                 {
-                    if (boxCollides(enemies[j], playerBullets[i]))
+                    if (boxCollides(playerBullets[i], enemies[j]))
                     {
                         enemies.Remove(enemies[j]);
+                        playerBullets[i].posX = -50;
+                        playerBullets[i].posY = -50;
+                    }
+                }
+            }
+            for (int i = 0; i < playerBullets.Count; i++)
+            {
+                for (int j = 0; j < walls.Count; j++)
+                {
+                    if (boxCollides(playerBullets[i], walls[j]))
+                    {
+                        playerBullets[i].posX = -50;
+                        playerBullets[i].posY = -50;
                     }
                 }
             }
@@ -469,6 +655,7 @@ namespace BattleCity
         //}
 
         //VER2
+        //GameObjects collider
         bool boxCollides(GameObject obj1, GameObject obj2)
         {
             if (obj1.collider.IntersectsWith(obj2.collider))
@@ -480,6 +667,31 @@ namespace BattleCity
                 return false;
             }
         }
-
+        //collider for new objects
+        bool boxCollides(int x, int y, GameObject obj2)
+        {
+            Rectangle newObjectPlace = new Rectangle(x, y, spriteSize, spriteSize);
+            if (newObjectPlace.IntersectsWith(obj2.collider))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //collider for new obj and rect (using for player)
+        bool boxCollides(int x, int y, Rectangle rect)
+        {
+            Rectangle newObjectPlace = new Rectangle(x, y, spriteSize, spriteSize);
+            if (newObjectPlace.IntersectsWith(rect))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

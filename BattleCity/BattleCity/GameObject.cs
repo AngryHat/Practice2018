@@ -282,5 +282,10 @@ namespace BattleCity
             posX = x;
             posY = y;
         }
+        public Wall(int x, int y, bool spriteSizeBuild) : this(x,y)
+        {
+            posX = x * size.Width;
+            posY = y * size.Height;
+        }
     }
 }
