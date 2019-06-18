@@ -141,9 +141,9 @@ namespace BattleCity
     {
         public Player()
         {
-            direction = Direction.up;
+            direction = Direction.right;
             posX = 48;
-            posY = 360;
+            posY = 720;
             image = new Bitmap(Properties.Resources.player, size);
         }
     }

@@ -115,6 +115,10 @@
     <Content Include="Resources\apple.png" />
     <Content Include="Resources\bullet.png" />
     <Content Include="Resources\bullet_small.png" />
+    <Content Include="Resources\menu_bg.png" />
+    <Content Include="Resources\menu_restart_bg.png" />
+    <Content Include="Resources\restart_button.png" />
+    <Content Include="Resources\start_button.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

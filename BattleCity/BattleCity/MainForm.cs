@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BattleCity
@@ -13,6 +8,8 @@ namespace BattleCity
     public partial class MainForm : Form
     {
         private PictureBox mainFrame;
+        PictureBox menuBox;
+        PictureBox startButton;
 
         int levelWidth = 17;
         int levelHeight = 17;
@@ -50,33 +47,37 @@ namespace BattleCity
             enemiesRespawn = new Timer();
             enemiesRespawn.Interval = 1000;
 
-            
-            pl = new Player();
-            enemies = new List<GameObject>();
-            walls = new List<GameObject>();
-            apples = new List<GameObject>();
-            playerBullets = new List<GameObject>();
 
-            GameOver = false;
+            ResetGameObjects();
 
             LoadLevel();
-            //LoadMenu();
-            
 
-            
+            LoadStartMenu();
 
-            
-
-            mainFrame.Paint += new PaintEventHandler(PaintPlayer);
-            mainFrame.Paint += new PaintEventHandler(PaintEnemy);
-            mainFrame.Paint += new PaintEventHandler(PaintWalls);
-            mainFrame.Paint += new PaintEventHandler(PaintBullets);
-            mainFrame.Paint += new PaintEventHandler(PaintApples);
+            PaintGameObjects();
 
             Controls.Add(mainFrame);
+
             InitializeComponent();
 
             //Game start
+            //mainTimer.Start();
+            //mainTimer.Tick += new EventHandler(_update);
+            //bulletCooldown.Start();
+            //bulletCooldown.Tick += new EventHandler(resetCooldown);
+            //enemiesRespawn.Start();
+            //enemiesRespawn.Tick += new EventHandler(GenerateEnemies);
+        }
+
+        void StartGame(object sender, EventArgs e)
+        {
+            GameOver = false;
+            Controls.Remove(startButton);
+            Controls.Remove(menuBox);
+
+            ResetGameObjects();
+            LoadLevel();
+
             mainTimer.Start();
             mainTimer.Tick += new EventHandler(_update);
             bulletCooldown.Start();
@@ -84,21 +85,59 @@ namespace BattleCity
             enemiesRespawn.Start();
             enemiesRespawn.Tick += new EventHandler(GenerateEnemies);
         }
-
-        void LoadMenu()
+        void PaintGameObjects()
         {
-            PictureBox startMenu = new PictureBox();
-            startMenu.Width = mainFrame.Width;
-            startMenu.Height = mainFrame.Height;
-            startMenu.Image = Properties.Resources.apple;
-            startMenu.BackColor = Color.FromArgb(120, Color.Black);
-            startMenu.Parent = mainFrame;
-            Controls.Add(startMenu);
+            mainFrame.Paint += new PaintEventHandler(PaintPlayer);
+            mainFrame.Paint += new PaintEventHandler(PaintEnemy);
+            mainFrame.Paint += new PaintEventHandler(PaintWalls);
+            mainFrame.Paint += new PaintEventHandler(PaintBullets);
+            mainFrame.Paint += new PaintEventHandler(PaintApples);
+        }
+        void ResetGameObjects()
+        {
+            pl = new Player();
+            enemies = new List<GameObject>();
+            walls = new List<GameObject>();
+            apples = new List<GameObject>();
+            playerBullets = new List<GameObject>();
+        }
+
+            void LoadStartMenu()
+        {
+            menuBox = new PictureBox();
+            menuBox.Width = 400;
+            menuBox.Height = 300;
+            menuBox.Location = new Point((mainFrame.Width / 2) - (menuBox.Width / 2), 250);
+            menuBox.Image = Properties.Resources.menu_bg;
+            
+            startButton = new PictureBox();
+            startButton.Parent = menuBox;
+            startButton.Width = 204;
+            startButton.Height = 64;
+            startButton.Image = Properties.Resources.start_button;
+            startButton.Location = new Point((mainFrame.Width / 2) - (menuBox.Width / 2) + 98, 250 + 196);
+
+            Controls.Add(startButton);
+            Controls.Add(menuBox);
+
+            startButton.Click += new EventHandler(StartGame);
+        }
+
+        void LoadRestartMenu()
+        {
+            //idk hwo to fix it
+            Controls.Remove(mainFrame);
+            LoadStartMenu();
+            Controls.Add(mainFrame);
+            startButton.Image = Properties.Resources.restart_button;
+            menuBox.Image = Properties.Resources.menu_restart_bg;
+            mainTimer.Tick -= new EventHandler(_update);
+
         }
 
         void LoadLevel()
         {
-            GenerateLeveBackGround();
+            GenerateLevelBackGround();
 
             //creating wall around level
             for (int i = 0; i < levelWidth; i++)
@@ -161,13 +200,7 @@ namespace BattleCity
             walls.Add(new Wall(14, 13, true));
         }
 
-        void ShowGameOverScreen()
-        {
-            mainTimer.Stop();
-            mainTimer.Tick -= _update;
-        }
-
-        void GenerateLeveBackGround()
+        void GenerateLevelBackGround()
         {
             mainFrame.BackgroundImage = new Bitmap(Properties.Resources.grass);
             mainFrame.Width = spriteSize * levelWidth;
@@ -350,7 +383,11 @@ namespace BattleCity
         {
             if (GameOver)
             {
-                ShowGameOverScreen();
+                mainTimer.Stop();
+                bulletCooldown.Stop();
+                enemiesRespawn.Stop();
+
+                LoadRestartMenu();
             }
 
             //GenerateEnemies(sender, e);
