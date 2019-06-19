@@ -30,3 +30,4 @@ C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity
 C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.csproj.CoreCompileInputs.cache
 C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.exe
 C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.pdb
+C:\Users\Elijah\Desktop\BACKUP\BattleCity (test)\BattleCity\obj\Debug\BattleCity.ObjectsViewForm.resources
