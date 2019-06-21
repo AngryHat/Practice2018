@@ -10,37 +10,58 @@ namespace BattleCity
 {
     public abstract class GameObject
     {
-        public enum Direction { right, left, up, down };
-        public Direction direction;
-        public Rectangle collider {
+        public string TypeString
+        {
             get
             {
-
+                if (this.GetType() == typeof(Entities.Tank))
+                    return "Tank";
+                else if (this.GetType() == typeof(Entities.Kolobok))
+                    return "Kolobok";
+                else if (this.GetType() == typeof(Entities.Wall))
+                    return "Wall";
+                else if (this.GetType() == typeof(Entities.Bullet))
+                    return "Bullet";
+                else
+                    return "Apple";
+            }
+        }
+        public enum Direction { right, left, up, down };
+        public Direction direction;
+        public Rectangle collider
+        {
+            get
+            {
                 return new Rectangle(posX, posY, image.Width, image.Height);
             }
         }
 
-        public Size size = new Size(48,48);
+        public Size size = new Size(48, 48);
         public Image image;
+        public Image[] dynamicImagesArr;
 
         public Image dynamicImage
         {
             get
             {
-                switch (direction)
+                if (dynamicImagesArr != null)
                 {
-                    case Direction.right:
-                        return RotateImage(image, 270);
+                    switch (direction)
+                    {
+                        case Direction.right:
+                            return dynamicImagesArr[0];
 
-                    case Direction.up:
-                        return RotateImage(image, 180);
+                        case Direction.up:
+                            return dynamicImagesArr[1];
 
-                    case Direction.left:
-                        return RotateImage(image, 90);
+                        case Direction.left:
+                            return dynamicImagesArr[2];
 
-                    default:
-                        return image;
+                        default:
+                            return dynamicImagesArr[3];
+                    }
                 }
+                else return image;
             }
         }
 
@@ -135,8 +156,4 @@ namespace BattleCity
             return result;
         }
     }
-
-
-
-    //BULLETS
 }

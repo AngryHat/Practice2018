@@ -17,6 +17,11 @@ namespace BattleCity
                 result.Add(pl);
                 result.AddRange(enemies);
                 result.AddRange(apples);
+                result.AddRange(pl.bullets);
+                foreach (Tank en in enemies)
+                {
+                    result.AddRange(en.bullets);
+                }
                 return result;
             }
         }

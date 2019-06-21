@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -19,7 +20,11 @@ namespace BattleCity
         int levelHeight = Convert.ToInt32(ConfigurationManager.AppSettings["LevelHeight"]);
         int spriteSize = 48;
         int enemiesMax = Convert.ToInt32(ConfigurationManager.AppSettings["EnemiesMax"]);
+        //TEST ONLY
+        //int enemiesMax = 40;
         int applesMax = Convert.ToInt32(ConfigurationManager.AppSettings["ApplesMax"]);
+        //TEST ONLY
+        //int applesMax = 100;
         int score = 0;
 
         public static int GameSpeed = 2;
@@ -38,7 +43,7 @@ namespace BattleCity
         public MainForm()
         {
             mainFrame = new PictureBox();
-            
+
             AddScoreLabel();
             AddObjectsFormButton();
             objFormButton.Click += objFormButtonClick;
@@ -59,7 +64,7 @@ namespace BattleCity
             mainTimer.Interval = 10;
             enemiesRespawnTimer = new Timer();
             enemiesRespawnTimer.Interval = 1000;
-            
+
             GameOver = false;
             score = 0;
             Controls.Remove(startButton);
@@ -75,7 +80,7 @@ namespace BattleCity
         }
         void PaintGameObjects()
         {
-            mainFrame.Paint += PaintFrame;
+            mainFrame.Image = GetNextFrame();
         }
         void ResetGameObjects()
         {
@@ -158,7 +163,7 @@ namespace BattleCity
 
         void LoadLevel()
         {
-            GenerateLevelBackGround();
+            GenerateLevelWithBackGround();
 
             //creating wall around level
             for (int i = 0; i < levelWidth; i++)
@@ -221,7 +226,9 @@ namespace BattleCity
             walls.Add(new Wall(14, 13, true));
 
         }
-        void GenerateLevelBackGround()
+
+
+        void GenerateLevelWithBackGround()
         {
             mainFrame.BackgroundImage = new Bitmap(Properties.Resources.grass);
             mainFrame.Width = spriteSize * levelWidth;
@@ -233,30 +240,33 @@ namespace BattleCity
             {
                 int randomX = 0;
                 int randomY = 0;
+                Tank newEnemy = new Tank();
 
                 while (randomX == 0 && randomY == 0)
                 {
                     Random rnd = new Random();
-                    randomX = rnd.Next(mainFrame.Width - spriteSize * 3) + spriteSize;
-                    randomY = rnd.Next(mainFrame.Height - spriteSize * 3) + spriteSize;
+                    randomX = (rnd.Next(levelWidth - 2) + 1) * spriteSize;
+                    randomY = (rnd.Next(levelHeight - 2) + 1) * spriteSize;
 
                     Rectangle enlargedPlayerCollider = new Rectangle(pl.posX - spriteSize * 2, pl.posY - spriteSize * 2, spriteSize * 5, spriteSize * 5);
+
+                    newEnemy = new Tank(randomX, randomY);
 
                     if (enemies.Count == 0)
                     {
                         break;
                     }
 
-                    if (PackmanController.boxCollides(randomX, randomY, enlargedPlayerCollider))
+                    if (PackmanController.boxCollides(newEnemy, enlargedPlayerCollider))
                     {
                         randomX = 0;
                         randomY = 0;
-                        continue;
+                        break;
                     }
 
                     foreach (Tank en in enemies)
                     {
-                        if (PackmanController.boxCollides(randomX, randomY, en))
+                        if (PackmanController.boxCollides(newEnemy, en))
                         {
                             randomX = 0;
                             randomY = 0;
@@ -266,7 +276,7 @@ namespace BattleCity
 
                     foreach (Wall wall in walls)
                     {
-                        if (PackmanController.boxCollides(randomX, randomY, wall))
+                        if (PackmanController.boxCollides(newEnemy, wall))
                         {
                             randomX = 0;
                             randomY = 0;
@@ -274,7 +284,10 @@ namespace BattleCity
                         }
                     }
                 }
-                enemies.Add(new Tank(randomX, randomY));
+                if (randomX != 0 && randomY != 0)
+                {
+                    enemies.Add(newEnemy);
+                }
             }
         }
         void GenerateApples(object sender, EventArgs e)
@@ -283,12 +296,14 @@ namespace BattleCity
             {
                 int randomX = 0;
                 int randomY = 0;
+                Apple newApple = new Apple();
 
                 while (randomX == 0 && randomY == 0)
                 {
                     Random rnd = new Random();
-                    randomX = rnd.Next(mainFrame.Width - spriteSize * 3) + spriteSize;
-                    randomY = rnd.Next(mainFrame.Height - spriteSize * 3) + spriteSize;
+                    randomX = (rnd.Next(levelWidth - 2) + 1) * spriteSize;
+                    randomY = (rnd.Next(levelHeight - 2) + 1) * spriteSize;
+                    newApple = new Apple(randomX,randomY);
 
                     Rectangle enlargedPlayerCollider = new Rectangle(pl.posX - spriteSize * 2, pl.posY - spriteSize * 2, spriteSize * 5, spriteSize * 5);
 
@@ -297,16 +312,16 @@ namespace BattleCity
                         break;
                     }
 
-                    if (PackmanController.boxCollides(randomX, randomY, enlargedPlayerCollider))
+                    if (PackmanController.boxCollides(newApple, enlargedPlayerCollider))
                     {
                         randomX = 0;
                         randomY = 0;
-                        continue;
+                        break;
                     }
 
                     foreach (Apple apple in apples)
                     {
-                        if (PackmanController.boxCollides(randomX, randomY, apple))
+                        if (PackmanController.boxCollides(newApple, apple))
                         {
                             randomX = 0;
                             randomY = 0;
@@ -316,7 +331,7 @@ namespace BattleCity
 
                     foreach (Wall wall in walls)
                     {
-                        if (PackmanController.boxCollides(randomX, randomY, wall))
+                        if (PackmanController.boxCollides(newApple, wall))
                         {
                             randomX = 0;
                             randomY = 0;
@@ -324,62 +339,75 @@ namespace BattleCity
                         }
                     }
                 }
-                apples.Add(new Apple(randomX, randomY));
+                if (randomX != 0 && randomY != 0)
+                {
+                    apples.Add(newApple);
+                } 
             }
         }
 
-        
-        private void PaintFrame(object sender, PaintEventArgs e)
+
+        private Bitmap GetNextFrame()
         {
-            //Painting player
-            if (pl != null)
+            //NEW WAY TO PAINT
+            Bitmap frame;
+            frame = new Bitmap(mainFrame.Width, mainFrame.Height);
+
+            using (Graphics g = Graphics.FromImage(frame))
             {
-                e.Graphics.DrawImage(pl.dynamicImage, pl.pos);
-            }
-            //Painting enemies
-            if (enemies != null)
-            {
+                //Painting player
+                if (pl != null)
+                {
+                    g.DrawImage(pl.dynamicImage, pl.pos);
+                }
+                if (enemies != null)
+                {
+                    foreach (Tank en in enemies)
+                    {
+                        g.DrawImage(en.dynamicImage, en.pos);
+                    }
+                }
+                //Painting bullets
+                if (pl.bullets != null)
+                {
+                    foreach (Bullet bullet in pl.bullets)
+                    {
+                        g.DrawImage(bullet.dynamicImage, bullet.pos);
+                    }
+                }
                 foreach (Tank en in enemies)
                 {
-                    e.Graphics.DrawImage(en.dynamicImage, en.pos);
+                    foreach (Bullet bullet in en.bullets)
+                    {
+                        g.DrawImage(bullet.dynamicImage, bullet.pos);
+                    }
                 }
-            }
-            //Painting bullets
-            if (pl.bullets != null)
-            {
-                foreach (Bullet bullet in pl.bullets)
+                //Painting walls
+                if (walls != null)
                 {
-                    e.Graphics.DrawImage(bullet.dynamicImage, bullet.pos);
+                    foreach (Wall wall in walls)
+                    {
+                        g.DrawImage(wall.image, wall.pos);
+                    }
                 }
-            }
-            foreach (Tank en in enemies)
-            {
-                foreach (Bullet bullet in en.bullets)
+                //Painting apples
+                if (apples != null)
                 {
-                    e.Graphics.DrawImage(bullet.dynamicImage, bullet.pos);
+                    foreach (Apple apple in apples)
+                    {
+                        g.DrawImage(apple.image, apple.pos);
+                    }
                 }
+                return frame;
             }
-            //Painting walls
-            if (walls != null)
-            {
-                foreach (Wall wall in walls)
-                {
-                    e.Graphics.DrawImage(wall.image, wall.pos);
-                }
-            }
-            //Painting apples
-            if (apples != null)
-            {
-                foreach (Apple apple in apples)
-                {
-                    e.Graphics.DrawImage(apple.image, apple.pos);
-                }
-            }
+
         }
 
         //UPDATE func
         void _update(object sender, EventArgs e)
         {
+            PaintGameObjects();
+
             if (GameOver)
             {
                 mainTimer.Stop();
@@ -582,7 +610,7 @@ namespace BattleCity
             // removing player bullets
             for (int i = 0; i < pl.bullets.Count; i++)
             {
-                if (pl.bullets[i].posX == levelWidth || pl.bullets[i].posX == 0 || pl.bullets[i].posY == levelHeight || pl.bullets[i].posY == 0)
+                if (pl.bullets[i].posX < 0 && pl.bullets[i].posY < 0)
                 {
                     pl.bullets.Remove(pl.bullets[i]);
                 }
@@ -603,6 +631,17 @@ namespace BattleCity
                 }
             }
 
+            // removing enemy bullets
+            foreach (Tank en in enemies)
+            {
+                for (int i = 0; i < en.bullets.Count; i++)
+                {
+                    if (en.bullets[i].posX < 0 && en.bullets[i].posY < 0)
+                    {
+                        en.bullets.Remove(en.bullets[i]);
+                    }
+                }
+            }
             // enemy bullet - wall collision
             foreach (Tank en in enemies)
             {
@@ -654,6 +693,6 @@ namespace BattleCity
                     break;
             }
         }
-        
+
     }
 }

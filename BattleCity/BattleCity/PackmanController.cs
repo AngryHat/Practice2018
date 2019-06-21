@@ -188,6 +188,18 @@ namespace BattleCity
                 return false;
             }
         }
+        //collider for new obj and rect (using for player)
+        public static bool boxCollides(GameObject obj, Rectangle rect)
+        {
+            if (obj.collider.IntersectsWith(rect))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
 

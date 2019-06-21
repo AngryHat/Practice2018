@@ -41,7 +41,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "KOLOBOK vs TANKS";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PlayerDirectionControl);
             this.ResumeLayout(false);
 

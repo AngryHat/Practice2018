@@ -37,6 +37,12 @@ namespace BattleCity.Entities
             bulletCooldownTimer.Interval = 4000 / MainForm.GameSpeed;
             bulletCooldownTimer.Tick += Shoot;
             bulletCooldownTimer.Start();
+
+            dynamicImagesArr = new Image[4];
+            dynamicImagesArr[0] = new Bitmap(RotateImage(image, 270));
+            dynamicImagesArr[1] = new Bitmap(RotateImage(image, 180));
+            dynamicImagesArr[2] = new Bitmap(RotateImage(image, 90));
+            dynamicImagesArr[3] = new Bitmap(image);
         }
         public Tank(int x, int y) : this()
         {

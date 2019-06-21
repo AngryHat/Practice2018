@@ -14,6 +14,7 @@ namespace BattleCity.Entities
         public List<Bullet> bullets;
         public bool bulletReady;
 
+        
         public Kolobok()
         {
             bullets = new List<Bullet>();
@@ -27,6 +28,12 @@ namespace BattleCity.Entities
             posX = 48;
             posY = 720;
             image = new Bitmap(Properties.Resources.player, size);
+
+            dynamicImagesArr = new Image[4];
+            dynamicImagesArr[0] = new Bitmap(RotateImage(image, 270));
+            dynamicImagesArr[1] = new Bitmap(RotateImage(image, 180));
+            dynamicImagesArr[2] = new Bitmap(RotateImage(image, 90));
+            dynamicImagesArr[3] = new Bitmap(image);
         }
 
         public void Shoot()

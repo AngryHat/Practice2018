@@ -13,6 +13,12 @@ namespace BattleCity.Entities
         {
             size = new Size(12, 12);
             image = new Bitmap(Properties.Resources.bullet, size);
+
+            dynamicImagesArr = new Image[4];
+            dynamicImagesArr[0] = new Bitmap(RotateImage(image, 270));
+            dynamicImagesArr[1] = new Bitmap(RotateImage(image, 180));
+            dynamicImagesArr[2] = new Bitmap(RotateImage(image, 90));
+            dynamicImagesArr[3] = new Bitmap(image);
         }
         public Bullet(GameObject shooter) : this()
         {

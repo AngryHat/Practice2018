@@ -29,13 +29,9 @@
         private void InitializeComponent()
         {
             this.ObjectsInformation = new System.Windows.Forms.DataGridView();
-            this.Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Image = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Collider = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rb = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ObjectsInformation)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,65 +39,36 @@
             // 
             this.ObjectsInformation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ObjectsInformation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Position,
-            this.Image,
-            this.Collider,
-            this.rb,
-            this.Column2,
-            this.Column4,
-            this.Column3});
-            this.ObjectsInformation.Location = new System.Drawing.Point(12, 12);
+            this.Type,
+            this.X,
+            this.Y});
+            this.ObjectsInformation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ObjectsInformation.Location = new System.Drawing.Point(0, 0);
             this.ObjectsInformation.Name = "ObjectsInformation";
-            this.ObjectsInformation.Size = new System.Drawing.Size(308, 593);
+            this.ObjectsInformation.Size = new System.Drawing.Size(332, 617);
             this.ObjectsInformation.TabIndex = 0;
             // 
-            // Position
+            // Type
             // 
-            this.Position.DataPropertyName = "pos";
-            this.Position.HeaderText = "Position";
-            this.Position.Name = "Position";
+            this.Type.DataPropertyName = "TypeString";
+            this.Type.HeaderText = "Type";
+            this.Type.Name = "Type";
+            this.Type.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Type.Width = 128;
             // 
-            // Image
+            // X
             // 
-            this.Image.DataPropertyName = "dynamicImage";
-            this.Image.HeaderText = "Image";
-            this.Image.Name = "Image";
+            this.X.DataPropertyName = "leftBorder";
+            this.X.HeaderText = "X";
+            this.X.Name = "X";
+            this.X.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
-            // Collider
+            // Y
             // 
-            this.Collider.DataPropertyName = "collider";
-            this.Collider.HeaderText = "Collider Points";
-            this.Collider.Name = "Collider";
-            this.Collider.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Collider.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // rb
-            // 
-            this.rb.DataPropertyName = "rightBorder";
-            this.rb.HeaderText = "rb";
-            this.rb.Name = "rb";
-            this.rb.Visible = false;
-            // 
-            // Column2
-            // 
-            this.Column2.DataPropertyName = "leftBorder";
-            this.Column2.HeaderText = "lb";
-            this.Column2.Name = "Column2";
-            this.Column2.Visible = false;
-            // 
-            // Column4
-            // 
-            this.Column4.DataPropertyName = "bottomBorder";
-            this.Column4.HeaderText = "bb";
-            this.Column4.Name = "Column4";
-            this.Column4.Visible = false;
-            // 
-            // Column3
-            // 
-            this.Column3.DataPropertyName = "topBorder";
-            this.Column3.HeaderText = "tb";
-            this.Column3.Name = "Column3";
-            this.Column3.Visible = false;
+            this.Y.DataPropertyName = "topBorder";
+            this.Y.HeaderText = "Y";
+            this.Y.Name = "Y";
+            this.Y.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // ObjectsViewForm
             // 
@@ -110,10 +77,11 @@
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(332, 617);
             this.Controls.Add(this.ObjectsInformation);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ObjectsViewForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "ObjectsViewForm";
+            this.Text = "All GameObjects";
             ((System.ComponentModel.ISupportInitialize)(this.ObjectsInformation)).EndInit();
             this.ResumeLayout(false);
 
@@ -122,12 +90,8 @@
         #endregion
 
         private System.Windows.Forms.DataGridView ObjectsInformation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Position;
-        private System.Windows.Forms.DataGridViewImageColumn Image;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Collider;
-        private System.Windows.Forms.DataGridViewTextBoxColumn rb;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn X;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Y;
     }
 }
