@@ -10,19 +10,18 @@ namespace BattleCity.Entities
 {
     public class Kolobok : GameObject
     {
-        public Timer bulletCooldownTimer;
         public List<Bullet> bullets;
         public bool bulletReady;
+        int bulletCooldownTickCount;
 
-        
+
+
         public Kolobok()
         {
             bullets = new List<Bullet>();
-            bulletCooldownTimer = new Timer();
-            bulletCooldownTimer.Interval = 1000 / MainForm.GameSpeed;
-            bulletCooldownTimer.Tick += resetShootingCooldown;
-            bulletCooldownTimer.Start();
             bulletReady = true;
+            bulletCooldownTickCount = 0;
+
 
             direction = Direction.right;
             posX = 48;
@@ -40,15 +39,42 @@ namespace BattleCity.Entities
         {
             if (bulletReady)
             {
+                bulletCooldownTickCount = 0;
                 bullets.Add(new Bullet(this));
-                bulletCooldownTimer.Start();
                 bulletReady = false;
             }
         }
-        public void resetShootingCooldown(object sender, EventArgs e)
+        public void checkShootingCooldown(object sender, EventArgs e)
         {
-            bulletReady = true;
-            bulletCooldownTimer.Start();
+            bulletCooldownTickCount++;
+            if(bulletCooldownTickCount > 50 / MainForm.GameSpeed)
+            {
+                bulletReady = true;
+            }
+        }
+        public void Move(string input)
+        {
+            switch (input)
+            {
+                case "d":
+                    direction = GameObject.Direction.right;
+                    break;
+
+                case "a":
+                    direction = GameObject.Direction.left;
+                    break;
+
+                case "w":
+                    direction = GameObject.Direction.up;
+                    break;
+
+                case "s":
+                    direction = GameObject.Direction.down;
+                    break;
+                case " ":
+                    Shoot();
+                    break;
+            }
         }
     }
 

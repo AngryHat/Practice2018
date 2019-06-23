@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BattleCity.Entities
 {
-    class Water : Wall
+    class Water : GameObject
     {
         public Water()
         {

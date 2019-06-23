@@ -155,5 +155,11 @@ namespace BattleCity
             }
             return result;
         }
+
+        public static Image cropImage(Image img, Rectangle cropArea)
+        {
+            Bitmap bmpImage = new Bitmap(img);
+            return bmpImage.Clone(cropArea, bmpImage.PixelFormat);
+        }
     }
 }

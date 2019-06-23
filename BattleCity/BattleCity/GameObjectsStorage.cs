@@ -29,6 +29,8 @@ namespace BattleCity
         public static Kolobok pl;
         public static List<GameObject> enemies;
         public static List<GameObject> walls;
+        public static List<GameObject> waters;
         public static List<GameObject> apples;
+        public static List<Explosion> explosions;
     }
 }

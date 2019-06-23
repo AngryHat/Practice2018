@@ -35,6 +35,29 @@ namespace BattleCity
                 pl.TurnAround();
             }
         }
+        public static void PlayerWater_Collide(Kolobok pl, Water water)
+        {
+            if (boxCollides(pl, water))
+            {
+                if (pl.direction == GameObject.Direction.left)
+                {
+                    pl.posX = water.rightBorder;
+                }
+                else if (pl.direction == GameObject.Direction.right)
+                {
+                    pl.posX = water.leftBorder - pl.image.Width;
+                }
+                if (pl.direction == GameObject.Direction.up)
+                {
+                    pl.posY = water.bottomBorder;
+                }
+                else if (pl.direction == GameObject.Direction.down)
+                {
+                    pl.posY = water.topBorder - pl.image.Height;
+                }
+                pl.TurnAround();
+            }
+        }
         public static bool PlayerApple_Collide(Kolobok pl, Apple apple)
         {
             if (boxCollides(pl, apple))
@@ -106,6 +129,29 @@ namespace BattleCity
                 en.TurnAround();
             }
         }
+        public static void EnemyWater_Collide(Tank en, Water water)
+        {
+            if (boxCollides(en, water))
+            {
+                if (en.direction == GameObject.Direction.left)
+                {
+                    en.posX = water.rightBorder;
+                }
+                else if (en.direction == GameObject.Direction.right)
+                {
+                    en.posX = water.leftBorder - en.image.Width;
+                }
+                if (en.direction == GameObject.Direction.up)
+                {
+                    en.posY = water.bottomBorder;
+                }
+                else if (en.direction == GameObject.Direction.down)
+                {
+                    en.posY = water.topBorder - en.image.Height;
+                }
+                en.TurnAround();
+            }
+        }
         public static void EnemyEnemy_Collide(Tank en, Tank en2)
         {
             if (boxCollides(en, en2) && en != en2)
@@ -121,6 +167,7 @@ namespace BattleCity
                 GameObjectsStorage.enemies.Remove(en);
                 pl.bullets[bulletIndex].posX = -50;
                 pl.bullets[bulletIndex].posY = -50;
+                GameObjectsStorage.explosions.Add(new Explosion(en.posX, en.posY));
             }
         }
         public static void BulletWall_Collide(Kolobok pl, int bulletIndex, Wall wall)
@@ -129,6 +176,18 @@ namespace BattleCity
             {
                 pl.bullets[bulletIndex].posX = -50;
                 pl.bullets[bulletIndex].posY = -50;
+                GameObjectsStorage.explosions.Add(new Explosion(wall.posX, wall.posY));
+
+                if (wall.breakable)
+                {
+                    wall.hitsTaken++;
+                }
+
+                if (wall.hitsTaken < 3)
+                {
+                    wall.GetWallImage();
+                }
+                else GameObjectsStorage.walls.Remove(wall);
             }
         }
         public static void BulletWall_Collide(Tank en, int bulletIndex, Wall wall)
@@ -137,6 +196,18 @@ namespace BattleCity
             {
                 en.bullets[bulletIndex].posX = -50;
                 en.bullets[bulletIndex].posY = -50;
+                GameObjectsStorage.explosions.Add(new Explosion(wall.posX, wall.posY));
+
+                if (wall.breakable)
+                {
+                    wall.hitsTaken++;
+                }
+
+                if (wall.hitsTaken < 3)
+                {
+                    wall.GetWallImage();
+                }
+                else GameObjectsStorage.walls.Remove(wall);
             }
         }
         public static bool BulletPlayer_Collide(Tank en, int bulletIndex, Kolobok pl)
@@ -145,15 +216,34 @@ namespace BattleCity
             {
                 en.bullets[bulletIndex].posX = -50;
                 en.bullets[bulletIndex].posY = -50;
+                GameObjectsStorage.explosions.Add(new Explosion(en.posX, en.posY));
                 return true;
             }
             else return false;
+        }
+        public static void AppleWall_Collide(Apple apple, Wall wall)
+        {
+            if (boxCollides(apple, wall))
+            {
+                apple.posY = wall.bottomBorder;
+            }
+        }
+        public static void AppleWater_Collide(Apple apple, Water water)
+        {
+            if (boxCollides(apple, water))
+            {
+                apple.posY = water.bottomBorder;
+            }
         }
 
         //GameObjects collider
         public static bool boxCollides(GameObject obj1, GameObject obj2)
         {
             if (obj1.collider.IntersectsWith(obj2.collider))
+            {
+                return true;
+            }
+            else if (obj1.posX == obj2.posX && obj1.posY == obj2.posY)
             {
                 return true;
             }
@@ -170,6 +260,10 @@ namespace BattleCity
             {
                 return true;
             }
+            else if (x == obj2.posX && y == obj2.posY)
+            {
+                return true;
+            }
             else
             {
                 return false;
@@ -180,6 +274,10 @@ namespace BattleCity
         {
             Rectangle newObjectPlace = new Rectangle(x, y, _spriteSize, _spriteSize);
             if (newObjectPlace.IntersectsWith(rect))
+            {
+                return true;
+            }
+            else if (x == rect.Left && y == rect.Top)
             {
                 return true;
             }
@@ -195,6 +293,10 @@ namespace BattleCity
             {
                 return true;
             }
+            else if (obj.posX == rect.Left && obj.posY == rect.Top)
+            {
+                return true;
+            }
             else
             {
                 return false;
@@ -202,33 +304,3 @@ namespace BattleCity
         }
     }
 }
-
-//USELESS EN CHANGE DIRECTION METHOD
-//Random rnd = new Random();
-//int newDirection = rnd.Next(1, 4);
-//                switch (en.direction)
-//                {
-//                    case GameObject.Direction.down:
-//                        if (newDirection == 1) { en.direction = GameObject.Direction.up; }
-//                        else if (newDirection == 2) { en.direction = GameObject.Direction.left; }
-//                        else if (newDirection == 3) { en.direction = GameObject.Direction.right; };
-//                        break;
-
-//                    case GameObject.Direction.up:
-//                        if (newDirection == 1) { en.direction = GameObject.Direction.down; }
-//                        else if (newDirection == 2) { en.direction = GameObject.Direction.left; }
-//                        else if (newDirection == 3) { en.direction = GameObject.Direction.right; };
-//                        break;
-
-//                    case GameObject.Direction.left:
-//                        if (newDirection == 1) { en.direction = GameObject.Direction.up; }
-//                        else if (newDirection == 2) { en.direction = GameObject.Direction.down; }
-//                        else if (newDirection == 3) { en.direction = GameObject.Direction.right; };
-//                        break;
-
-//                    case GameObject.Direction.right:
-//                        if (newDirection == 1) { en.direction = GameObject.Direction.up; }
-//                        else if (newDirection == 2) { en.direction = GameObject.Direction.left; }
-//                        else if (newDirection == 3) { en.direction = GameObject.Direction.down; };
-//                        break;
-//                }

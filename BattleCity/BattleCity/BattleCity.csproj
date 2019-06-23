@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Entities\Apple.cs" />
     <Compile Include="Entities\Bullet.cs" />
+    <Compile Include="Entities\Explosion.cs" />
     <Compile Include="Entities\Kolobok.cs" />
     <Compile Include="Entities\Tank.cs" />
     <Compile Include="Entities\Wall.cs" />
@@ -133,10 +134,14 @@
     <Content Include="Resources\apple.png" />
     <Content Include="Resources\bullet.png" />
     <Content Include="Resources\bullet_small.png" />
+    <Content Include="Resources\explosion.png" />
     <Content Include="Resources\menu_bg.png" />
     <Content Include="Resources\menu_restart_bg.png" />
     <Content Include="Resources\restart_button.png" />
     <Content Include="Resources\start_button.png" />
+    <Content Include="Resources\wall2.png" />
+    <Content Include="Resources\wall3.png" />
+    <Content Include="Resources\wall_array.png" />
     <Content Include="Resources\water.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -14,6 +14,7 @@ namespace BattleCity.Entities
         public int directionStep;
         public Timer turnaroundTimer;
         public Timer bulletCooldownTimer;
+        int bulletCooldownTimerTick;
         public bool turnaroundReady;
         public List<Bullet> bullets;
 
@@ -33,10 +34,10 @@ namespace BattleCity.Entities
             turnaroundReady = true;
 
             bullets = new List<Bullet>();
-            bulletCooldownTimer = new Timer();
-            bulletCooldownTimer.Interval = 4000 / MainForm.GameSpeed;
-            bulletCooldownTimer.Tick += Shoot;
-            bulletCooldownTimer.Start();
+            //bulletCooldownTimer = new Timer();
+            //bulletCooldownTimer.Interval = 4000 / MainForm.GameSpeed;
+            //bulletCooldownTimer.Tick += Shoot;
+            //bulletCooldownTimer.Start();
 
             dynamicImagesArr = new Image[4];
             dynamicImagesArr[0] = new Bitmap(RotateImage(image, 270));
@@ -50,14 +51,23 @@ namespace BattleCity.Entities
             posY = y;
         }
 
+        public void bulletCooldownCheck()
+        {
+            bulletCooldownTimerTick++;
+            if (bulletCooldownTimerTick > 400 / MainForm.GameSpeed)
+            {
+                Shoot();
+            }
+        }
         public void resetTurnaroundCooldown(object sender, EventArgs e)
         {
             turnaroundReady = true;
             turnaroundTimer.Start();
 
         }
-        public void Shoot(object sender, EventArgs e)
+        public void Shoot()
         {
+            bulletCooldownTimerTick = 0;
             bullets.Add(new Bullet(this));
         }
 
