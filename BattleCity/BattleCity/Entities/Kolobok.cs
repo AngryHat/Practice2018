@@ -52,7 +52,7 @@ namespace BattleCity.Entities
                 bulletReady = true;
             }
         }
-        public void Move(string input)
+        public void ChangeDirection(string input)
         {
             switch (input)
             {
@@ -74,6 +74,50 @@ namespace BattleCity.Entities
                 case " ":
                     Shoot();
                     break;
+            }
+        }
+        public void Move()
+        {
+            switch (direction)
+            {
+                case GameObject.Direction.right:
+                    posX += MainForm.GameSpeed;
+                    break;
+
+                case GameObject.Direction.left:
+                    posX -= MainForm.GameSpeed;
+                    break;
+
+                case GameObject.Direction.up:
+                    posY -= MainForm.GameSpeed;
+                    break;
+
+                case GameObject.Direction.down:
+                    posY += MainForm.GameSpeed;
+                    break;
+            }
+        }
+        public void CheckLevelBounds()
+        {
+            if (leftBorder < 0)
+            {
+                posX = 0;
+                TurnAround();
+            }
+            else if (rightBorder > MainForm.mainFrame.Width)
+            {
+                posX = MainForm.mainFrame.Width - image.Width;
+                TurnAround();
+            }
+            else if (topBorder < 0)
+            {
+                posY = 0;
+                TurnAround();
+            }
+            else if (bottomBorder > MainForm.mainFrame.Height)
+            {
+                posY = MainForm.mainFrame.Height - image.Height;
+                TurnAround();
             }
         }
     }

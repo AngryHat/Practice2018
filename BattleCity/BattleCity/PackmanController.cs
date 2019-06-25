@@ -76,7 +76,7 @@ namespace BattleCity
             else return false;
         }
 
-        public static void EnemyRandomDirection(Tank en)
+        public static void EnemyGetRandomDirection(Tank en)
         {
             if (en.directionStep >= en.image.Width)
             {
@@ -112,19 +112,19 @@ namespace BattleCity
             {
                 if (en.direction == GameObject.Direction.left)
                 {
-                    en.posX = wall.rightBorder;
+                    en.posX = wall.posX + wall.image.Width;
                 }
                 else if (en.direction == GameObject.Direction.right)
                 {
-                    en.posX = wall.leftBorder - en.image.Width;
+                    en.posX = wall.posX - en.image.Width;
                 }
                 if (en.direction == GameObject.Direction.up)
                 {
-                    en.posY = wall.bottomBorder;
+                    en.posY = wall.posY + wall.image.Height;
                 }
                 else if (en.direction == GameObject.Direction.down)
                 {
-                    en.posY = wall.topBorder - en.image.Height;
+                    en.posY = wall.posY - en.image.Height;
                 }
                 en.TurnAround();
             }
@@ -156,6 +156,22 @@ namespace BattleCity
         {
             if (boxCollides(en, en2) && en != en2)
             {
+                if (en.direction == GameObject.Direction.left)
+                {
+                    en.posX = en2.rightBorder;
+                }
+                else if (en.direction == GameObject.Direction.right)
+                {
+                    en.posX = en2.leftBorder - en.image.Width;
+                }
+                if (en.direction == GameObject.Direction.up)
+                {
+                    en.posY = en2.bottomBorder;
+                }
+                else if (en.direction == GameObject.Direction.down)
+                {
+                    en.posY = en2.topBorder - en.image.Height;
+                }
                 en.TurnAround();
             }
         }

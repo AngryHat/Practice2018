@@ -10,7 +10,7 @@ namespace BattleCity
 {
     public partial class MainForm : Form
     {
-        PictureBox mainFrame;
+        public static PictureBox mainFrame;
         PictureBox menuBox;
         PictureBox startButton;
         Label scoreLable;
@@ -18,13 +18,10 @@ namespace BattleCity
 
         int levelWidth = Convert.ToInt32(ConfigurationManager.AppSettings["LevelWidth"]);
         int levelHeight = Convert.ToInt32(ConfigurationManager.AppSettings["LevelHeight"]);
-        int spriteSize = 48;
+        public static int spriteSize = 48;
         int enemiesMax = Convert.ToInt32(ConfigurationManager.AppSettings["EnemiesMax"]);
-        //TEST ONLY
-        //int enemiesMax = 40;
         int applesMax = Convert.ToInt32(ConfigurationManager.AppSettings["ApplesMax"]);
-        //TEST ONLY
-        //int applesMax = 100;
+        
         int score = 0;
 
         public static int GameSpeed = 2;
@@ -38,12 +35,15 @@ namespace BattleCity
 
         public static Timer mainTimer;
         Timer objectsSpawnTimer;
-
-        //not using yet
+        
         bool GameOver;
 
         public MainForm()
         {
+            ////TEST ONLY
+            //applesMax = 100;
+            //enemiesMax = 1;
+
             mainFrame = new PictureBox();
 
             AddScoreLabel();
@@ -253,15 +253,16 @@ namespace BattleCity
         {
             if (enemies.Count < enemiesMax)
             {
+                Tank newEnemy = new Tank();
                 int randomX = 0;
                 int randomY = 0;
-                Tank newEnemy = new Tank();
 
                 while (randomX == 0 && randomY == 0)
                 {
                     Random rnd = new Random();
                     randomX = (rnd.Next(levelWidth - 2) + 1) * spriteSize;
                     randomY = (rnd.Next(levelHeight - 2) + 1) * spriteSize;
+                    newEnemy = new Tank(randomX, randomY);
 
                     Rectangle enlargedPlayerCollider = new Rectangle(pl.posX - spriteSize * 2, pl.posY - spriteSize * 2, spriteSize * 5, spriteSize * 5);
 
@@ -374,10 +375,9 @@ namespace BattleCity
         private Bitmap GetNextFrame()
         {
             //NEW WAY TO PAINT
-            Bitmap frame;
-            frame = new Bitmap(mainFrame.Width, mainFrame.Height);
-
-            using (Graphics g = Graphics.FromImage(frame))
+            Bitmap finalFrame = new Bitmap(mainFrame.Width, mainFrame.Height);
+            
+            using (Graphics g = Graphics.FromImage(finalFrame))
             {
                 //Painting player
                 if (pl != null)
@@ -389,21 +389,6 @@ namespace BattleCity
                     foreach (Tank en in enemies)
                     {
                         g.DrawImage(en.dynamicImage, en.pos);
-                    }
-                }
-                //Painting bullets
-                if (pl.bullets != null)
-                {
-                    foreach (Bullet bullet in pl.bullets)
-                    {
-                        g.DrawImage(bullet.dynamicImage, bullet.pos);
-                    }
-                }
-                foreach (Tank en in enemies)
-                {
-                    foreach (Bullet bullet in en.bullets)
-                    {
-                        g.DrawImage(bullet.dynamicImage, bullet.pos);
                     }
                 }
                 //Painting walls
@@ -422,6 +407,21 @@ namespace BattleCity
                         g.DrawImage(water.image, water.pos);
                     }
                 }
+                //Painting bullets
+                if (pl.bullets != null)
+                {
+                    foreach (Bullet bullet in pl.bullets)
+                    {
+                        g.DrawImage(bullet.dynamicImage, bullet.pos);
+                    }
+                }
+                foreach (Tank en in enemies)
+                {
+                    foreach (Bullet bullet in en.bullets)
+                    {
+                        g.DrawImage(bullet.dynamicImage, bullet.pos);
+                    }
+                }
                 //Painting apples
                 if (apples != null)
                 {
@@ -438,9 +438,8 @@ namespace BattleCity
                         g.DrawImage(ex.image, ex.pos);
                     }
                 }
-                return frame;
             }
-
+            return finalFrame;
         }
 
         //UPDATE func
@@ -457,134 +456,34 @@ namespace BattleCity
                 LoadRestartMenu();
             }
 
-            foreach (Tank en in enemies)
-            {
-                en.bulletCooldownCheck();
-            }
-
             foreach (Explosion ex in explosions)
             {
                 ex.showExolosionAnimation();
             }
 
             GenerateApples(sender, e);
+
             //updating scores
             scoreLable.Text = "SCORES: " + score.ToString();
-
-            //MOVEMENT SECTION
-            //bullet movement
+            
+            //bullets movement
             foreach (Bullet bullet in pl.bullets)
             {
-                int bulletSpeed = 2 * GameSpeed;
-                switch (bullet.direction)
-                {
-                    case GameObject.Direction.right:
-                        bullet.posX += bulletSpeed;
-                        break;
-
-                    case GameObject.Direction.left:
-                        bullet.posX -= bulletSpeed;
-                        break;
-
-                    case GameObject.Direction.up:
-                        bullet.posY -= bulletSpeed;
-                        break;
-
-                    case GameObject.Direction.down:
-                        bullet.posY += bulletSpeed;
-                        break;
-                }
+                bullet.Move();
             }
             foreach (Tank en in enemies)
             {
                 foreach (Bullet bullet in en.bullets)
                 {
-                    int bulletSpeed = 2 * GameSpeed;
-                    switch (bullet.direction)
-                    {
-                        case GameObject.Direction.right:
-                            bullet.posX += bulletSpeed;
-                            break;
-
-                        case GameObject.Direction.left:
-                            bullet.posX -= bulletSpeed;
-                            break;
-
-                        case GameObject.Direction.up:
-                            bullet.posY -= bulletSpeed;
-                            break;
-
-                        case GameObject.Direction.down:
-                            bullet.posY += bulletSpeed;
-                            break;
-                    }
-                }
-            }
-            //player movement
-            switch (pl.direction)
-            {
-                case GameObject.Direction.right:
-                    pl.posX += GameSpeed;
-                    break;
-
-                case GameObject.Direction.left:
-                    pl.posX -= GameSpeed;
-                    break;
-
-                case GameObject.Direction.up:
-                    pl.posY -= GameSpeed;
-                    break;
-
-                case GameObject.Direction.down:
-                    pl.posY += GameSpeed;
-                    break;
-            }
-            //enemy movement
-            foreach (Tank en in enemies)
-            {
-                en.directionStep += GameSpeed;
-                switch (en.direction)
-                {
-                    case GameObject.Direction.right:
-                        en.posX += GameSpeed;
-                        break;
-
-                    case GameObject.Direction.left:
-                        en.posX -= GameSpeed;
-                        break;
-
-                    case GameObject.Direction.up:
-                        en.posY -= GameSpeed;
-                        break;
-
-                    case GameObject.Direction.down:
-                        en.posY += GameSpeed;
-                        break;
+                    bullet.Move();
                 }
             }
 
             //PLAYER SECTION
-            //player reach level boundaries
-            if (pl.leftBorder < 0)
-            {
-                pl.posX = 0;
-                pl.TurnAround();
-            }
-            else if (pl.rightBorder > mainFrame.Width)
-            {
-                pl.posX = mainFrame.Width - pl.image.Width;
-                pl.TurnAround();
-            }
-            else if (pl.topBorder < 0)
-            {
-                pl.posY = 0;
-                pl.TurnAround();
-            }
-            else if (pl.bottomBorder > mainFrame.Height)
-            {
-                pl.posY = mainFrame.Height - pl.image.Height;
-                pl.TurnAround();
-            }
+            pl.Move();
+            
+            pl.CheckLevelBounds();
+
             //player - wall collision
             foreach (Wall wall in walls)
             {
@@ -613,59 +512,34 @@ namespace BattleCity
             }
 
             //ENEMY SECTION
-            //enemy reach level boundaries
             foreach (Tank en in enemies)
             {
-                if (en.leftBorder < 0)
-                {
-                    en.posX = 0;
-                    en.TurnAround();
-                }
-                else if (en.rightBorder > mainFrame.Width)
-                {
-                    en.posX = mainFrame.Width - en.image.Width;
-                    en.TurnAround();
-                }
-                else if (en.topBorder < 0)
-                {
-                    en.posY = 0;
-                    en.TurnAround();
-                }
-                else if (en.bottomBorder > mainFrame.Height)
-                {
-                    en.posY = mainFrame.Height - en.image.Height;
-                    en.TurnAround();
-                }
-            }
-            //enemy random direction
-            foreach (Tank en in enemies)
-            {
-                PackmanController.EnemyRandomDirection(en);
-            }
-            //enemy - wall colission
-            foreach (Tank en in enemies)
-            {
+                en.Move();
+
+                en.directionStep++;
+
+                en.CheckLevelBounds();
+
+                en.bulletCooldownCheck();
+
+                en.turnaroundCooldownCheck();
+
+                PackmanController.EnemyGetRandomDirection(en);
+
                 foreach (Wall wall in walls)
                 {
                     PackmanController.EnemyWall_Collide(en, wall);
                 }
-            }
-            //enemy - water colission
-            foreach (Tank en in enemies)
-            {
                 foreach (Water water in waters)
                 {
                     PackmanController.EnemyWater_Collide(en, water);
                 }
-            }
-            //enemy - enemy collision
-            foreach (Tank en in enemies)
-            {
                 foreach (Tank en2 in enemies)
                 {
                     PackmanController.EnemyEnemy_Collide(en, en2);
                 }
             }
+
             //apple collision
             foreach (Apple apple in apples)
             {
@@ -679,9 +553,7 @@ namespace BattleCity
                     PackmanController.AppleWater_Collide(apple, water);
                 }
             }
-
-
-
+            
             //BULLETS SECTION
             //player bullets
             for (int i = 0; i < pl.bullets.Count; i++)
@@ -738,8 +610,6 @@ namespace BattleCity
                     explosions.Remove(explosions[i]);
                 }
             }
-            //end of update func
-            //mainFrame.Refresh();
         }
 
 
@@ -747,7 +617,7 @@ namespace BattleCity
         private void PlayerDirectionControl(object sender, KeyPressEventArgs e)
         {
             string input = e.KeyChar.ToString();
-            pl.Move(input);
+            pl.ChangeDirection(input);
         }
 
     }

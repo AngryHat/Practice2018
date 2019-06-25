@@ -44,6 +44,51 @@ namespace BattleCity.Entities
                 posY = shooter.posY + (shooter.image.Width / 2 - image.Width / 2);
             }
         }
+
+        public void Move()
+        {
+            int bulletSpeed = 2 * MainForm.GameSpeed;
+
+            switch (direction)
+            {
+                case GameObject.Direction.right:
+                    posX += bulletSpeed;
+                    break;
+
+                case GameObject.Direction.left:
+                    posX -= bulletSpeed;
+                    break;
+
+                case GameObject.Direction.up:
+                    posY -= bulletSpeed;
+                    break;
+
+                case GameObject.Direction.down:
+                    posY += bulletSpeed;
+                    break;
+            }
+        }
+        public void Move(int bulletSpeed)
+        {
+            switch (direction)
+            {
+                case GameObject.Direction.right:
+                    posX += bulletSpeed;
+                    break;
+
+                case GameObject.Direction.left:
+                    posX -= bulletSpeed;
+                    break;
+
+                case GameObject.Direction.up:
+                    posY -= bulletSpeed;
+                    break;
+
+                case GameObject.Direction.down:
+                    posY += bulletSpeed;
+                    break;
+            }
+        }
     }
 
 }

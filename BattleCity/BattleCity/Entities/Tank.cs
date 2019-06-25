@@ -15,6 +15,7 @@ namespace BattleCity.Entities
         public Timer turnaroundTimer;
         public Timer bulletCooldownTimer;
         int bulletCooldownTimerTick;
+        int turnaroundCooldownTimerTick;
         public bool turnaroundReady;
         public List<Bullet> bullets;
 
@@ -26,18 +27,10 @@ namespace BattleCity.Entities
             posX = 96;
             posY = 96;
             image = new Bitmap(Properties.Resources.enemy, size);
-
-            turnaroundTimer = new Timer();
-            turnaroundTimer.Interval = 200;
-            turnaroundTimer.Start();
-            turnaroundTimer.Tick += resetTurnaroundCooldown;
+            
             turnaroundReady = true;
 
             bullets = new List<Bullet>();
-            //bulletCooldownTimer = new Timer();
-            //bulletCooldownTimer.Interval = 4000 / MainForm.GameSpeed;
-            //bulletCooldownTimer.Tick += Shoot;
-            //bulletCooldownTimer.Start();
 
             dynamicImagesArr = new Image[4];
             dynamicImagesArr[0] = new Bitmap(RotateImage(image, 270));
@@ -59,11 +52,13 @@ namespace BattleCity.Entities
                 Shoot();
             }
         }
-        public void resetTurnaroundCooldown(object sender, EventArgs e)
+        public void turnaroundCooldownCheck()
         {
-            turnaroundReady = true;
-            turnaroundTimer.Start();
-
+            turnaroundCooldownTimerTick++;
+            if (turnaroundCooldownTimerTick > 20)
+            {
+                turnaroundReady = true;
+            }
         }
         public void Shoot()
         {
@@ -80,26 +75,69 @@ namespace BattleCity.Entities
                     case Direction.down:
                         direction = Direction.up;
                         turnaroundReady = false;
-                        turnaroundTimer.Start();
+                        turnaroundCooldownTimerTick = 0;
                         break;
                     case Direction.up:
                         direction = Direction.down;
                         turnaroundReady = false;
-                        turnaroundTimer.Start();
+                        turnaroundCooldownTimerTick = 0;
                         break;
                     case Direction.left:
                         direction = Direction.right;
                         turnaroundReady = false;
-                        turnaroundTimer.Start();
+                        turnaroundCooldownTimerTick = 0;
                         break;
                     case Direction.right:
                         direction = Direction.left;
                         turnaroundReady = false;
-                        turnaroundTimer.Start();
+                        turnaroundCooldownTimerTick = 0;
                         break;
                 }
             }
         }
-    }
+        public void Move()
+        {
+            switch (direction)
+            {
+                case GameObject.Direction.right:
+                    posX += MainForm.GameSpeed;
+                    break;
 
+                case GameObject.Direction.left:
+                    posX -= MainForm.GameSpeed;
+                    break;
+
+                case GameObject.Direction.up:
+                    posY -= MainForm.GameSpeed;
+                    break;
+
+                case GameObject.Direction.down:
+                    posY += MainForm.GameSpeed;
+                    break;
+            }
+        }
+        public void CheckLevelBounds()
+        {
+            if (leftBorder < MainForm.spriteSize)
+            {
+                posX = MainForm.spriteSize;
+                TurnAround();
+            }
+            else if (rightBorder > MainForm.mainFrame.Width - MainForm.spriteSize)
+            {
+                posX = MainForm.mainFrame.Width - image.Width - MainForm.spriteSize;
+                TurnAround();
+            }
+            else if (topBorder < 0 + MainForm.spriteSize)
+            {
+                posY = 0 + MainForm.spriteSize;
+                TurnAround();
+            }
+            else if (bottomBorder > MainForm.mainFrame.Height - MainForm.spriteSize)
+            {
+                posY = MainForm.mainFrame.Height - image.Height - MainForm.spriteSize;
+                TurnAround();
+            }
+        }
+    }
 }
